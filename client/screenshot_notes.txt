@@ -1,6 +1,0 @@
-Visualização validada:
-- A tela inicial do site "A Jornada do Aprender" carregou com visual limpo e fiel ao design infantil original.
-- Tipografia Fredoka e Quicksand renderizada com cores vibrantes (#7c2ae8 e #ff3385).
-- Ícones coloridos dos 8 níveis alinhados com sombras e relevo.
-- Campo de digitação de nome com borda arredondada e botão roxo com gradiente e sombra.
-- Link para "PAINEL DO PROFESSOR" e botão de áudio no topo direito.
