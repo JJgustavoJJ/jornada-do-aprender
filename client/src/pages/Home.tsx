@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { startLogin } from "@/const";
+import { trpc } from "@/lib/trpc";
 
 // Tipagem dos exercícios
 interface ExerciseItem {
@@ -21,10 +24,10 @@ interface TeacherRecord {
   hits: number;
   errors: number;
   attempts: number;
-  levelsDone: Record<number, boolean>;
-  levelHits: Record<number, number>;
-  levelErrors: Record<number, number>;
-  timePerLevel: Record<number, number>;
+  levelsDone: Record<string, boolean>;
+  levelHits: Record<string, number>;
+  levelErrors: Record<string, number>;
+  timePerLevel: Record<string, number>;
 }
 
 // Mensagens alegres
@@ -193,6 +196,15 @@ declare global {
 }
 
 export default function Home() {
+  const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const trpcUtils = trpc.useUtils();
+  const saveProgressMutation = trpc.studentProgress.save.useMutation();
+  const teacherProgressQuery = trpc.studentProgress.list.useQuery(undefined, {
+    enabled: isAuthenticated,
+    retry: 1,
+  });
+  const clearProgressMutation = trpc.studentProgress.clear.useMutation();
+
   // Telas: 'home' | 'menu' | 'game' | 'teacher'
   const [screen, setScreen] = useState<"home" | "menu" | "game" | "teacher">("home");
   const [studentName, setStudentName] = useState("");
@@ -216,8 +228,8 @@ export default function Home() {
   const [authError, setAuthError] = useState(false);
   const [showClearDataModal, setShowClearDataModal] = useState(false);
 
-  // Registros do Professor salvos em localStorage
-  const [teacherRecords, setTeacherRecords] = useState<Record<string, TeacherRecord>>(() => {
+  // Cache local para manter o jogo utilizável durante uma indisponibilidade breve da API.
+  const [localRecords, setLocalRecords] = useState<Record<string, TeacherRecord>>(() => {
     try {
       const data = localStorage.getItem("teacherRecords");
       return data ? JSON.parse(data) : {};
@@ -225,6 +237,11 @@ export default function Home() {
       return {};
     }
   });
+
+  const teacherRecords: Record<string, TeacherRecord> =
+    teacherProgressQuery.data && teacherProgressQuery.data.length > 0
+      ? Object.fromEntries(teacherProgressQuery.data.map((record) => [record.studentName, record as TeacherRecord]))
+      : localRecords;
 
   // Canvas ref e desenho
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -258,59 +275,72 @@ export default function Home() {
     });
   };
 
-  // Inicializar dados do aluno
-  const inicializarRegistroAluno = (nome: string) => {
-    setTeacherRecords((prev) => {
-      const updated = { ...prev };
-      if (!updated[nome]) {
-        updated[nome] = {
-          hits: 0,
-          errors: 0,
-          attempts: 0,
-          levelsDone: {},
-          levelHits: {},
-          levelErrors: {},
-          timePerLevel: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
-        };
-      } else if (!updated[nome].timePerLevel) {
-        updated[nome].timePerLevel = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
-      }
+  const createEmptyTeacherRecord = (): TeacherRecord => ({
+    hits: 0,
+    errors: 0,
+    attempts: 0,
+    levelsDone: {},
+    levelHits: {},
+    levelErrors: {},
+    timePerLevel: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 },
+  });
+
+  const toProgressPayload = (student: string, record: TeacherRecord) => ({
+    studentName: student,
+    hits: record.hits,
+    errors: record.errors,
+    attempts: record.attempts,
+    levelsDone: record.levelsDone,
+    levelHits: record.levelHits,
+    levelErrors: record.levelErrors,
+    timePerLevel: record.timePerLevel,
+  });
+
+  const persistRecord = (student: string, record: TeacherRecord) => {
+    setLocalRecords((prev) => {
+      const updated = { ...prev, [student]: record };
       localStorage.setItem("teacherRecords", JSON.stringify(updated));
       return updated;
     });
+    saveProgressMutation.mutate(toProgressPayload(student, record));
   };
 
   // Acumular tempo gasto no nível atual
   const acumularTempoNivel = () => {
     if (currentLevelIdx && levelStartTime) {
       const tempoDecorrido = Math.floor((Date.now() - levelStartTime) / 1000);
-      setTeacherRecords((prev) => {
-        const updated = { ...prev };
-        if (!updated[currentStudent]) {
-          updated[currentStudent] = {
-            hits: 0,
-            errors: 0,
-            attempts: 0,
-            levelsDone: {},
-            levelHits: {},
-            levelErrors: {},
-            timePerLevel: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
-          };
-        }
-        const rec = updated[currentStudent];
-        rec.timePerLevel[currentLevelIdx] = (rec.timePerLevel[currentLevelIdx] || 0) + tempoDecorrido;
-        localStorage.setItem("teacherRecords", JSON.stringify(updated));
-        return updated;
-      });
+      const currentRecord = localRecords[currentStudent] ?? createEmptyTeacherRecord();
+      const updatedRecord: TeacherRecord = {
+        ...currentRecord,
+        timePerLevel: {
+          ...currentRecord.timePerLevel,
+          [currentLevelIdx]: (currentRecord.timePerLevel[currentLevelIdx] || 0) + tempoDecorrido,
+        },
+      };
+      persistRecord(currentStudent, updatedRecord);
       setLevelStartTime(null);
     }
   };
 
-  // Iniciar Jornada
-  const startJourney = () => {
+  // Iniciar Jornada. O registro existente no MySQL tem prioridade sobre o cache local.
+  const startJourney = async () => {
     const nome = studentName.trim() !== "" ? studentName.trim() : "Aluno " + Math.floor(Math.random() * 899 + 100);
+    let serverRecord: TeacherRecord | null = null;
+
+    try {
+      serverRecord = await trpcUtils.studentProgress.get.fetch({ studentName: nome }) as TeacherRecord | null;
+    } catch {
+      // Se a API estiver temporariamente indisponível, o cache local continua funcionando.
+    }
+
+    const record = serverRecord ?? localRecords[nome] ?? createEmptyTeacherRecord();
     setCurrentStudent(nome);
-    inicializarRegistroAluno(nome);
+    setLocalRecords((prev) => {
+      const updated = { ...prev, [nome]: record };
+      localStorage.setItem("teacherRecords", JSON.stringify(updated));
+      return updated;
+    });
+    if (!serverRecord) saveProgressMutation.mutate(toProgressPayload(nome, record));
     setScreen("menu");
   };
 
@@ -357,34 +387,23 @@ export default function Home() {
     }
   };
 
-  // Registrar pontuação
+  // Registrar pontuação e enviar o snapshot atualizado para o MySQL.
   const registerScore = (isCorrect: boolean) => {
-    setTeacherRecords((prev) => {
-      const updated = { ...prev };
-      if (!updated[currentStudent]) {
-        updated[currentStudent] = {
-          hits: 0,
-          errors: 0,
-          attempts: 0,
-          levelsDone: {},
-          levelHits: {},
-          levelErrors: {},
-          timePerLevel: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
-        };
-      }
-      const rec = updated[currentStudent];
-      rec.attempts++;
-      if (isCorrect) {
-        rec.hits++;
-        rec.levelsDone[currentLevelIdx] = true;
-        rec.levelHits[currentLevelIdx] = (rec.levelHits[currentLevelIdx] || 0) + 1;
-      } else {
-        rec.errors++;
-        rec.levelErrors[currentLevelIdx] = (rec.levelErrors[currentLevelIdx] || 0) + 1;
-      }
-      localStorage.setItem("teacherRecords", JSON.stringify(updated));
-      return updated;
-    });
+    const currentRecord = localRecords[currentStudent] ?? createEmptyTeacherRecord();
+    const updatedRecord: TeacherRecord = {
+      ...currentRecord,
+      attempts: currentRecord.attempts + 1,
+      hits: currentRecord.hits + (isCorrect ? 1 : 0),
+      errors: currentRecord.errors + (isCorrect ? 0 : 1),
+      levelsDone: isCorrect ? { ...currentRecord.levelsDone, [currentLevelIdx]: true } : currentRecord.levelsDone,
+      levelHits: isCorrect
+        ? { ...currentRecord.levelHits, [currentLevelIdx]: (currentRecord.levelHits[currentLevelIdx] || 0) + 1 }
+        : currentRecord.levelHits,
+      levelErrors: !isCorrect
+        ? { ...currentRecord.levelErrors, [currentLevelIdx]: (currentRecord.levelErrors[currentLevelIdx] || 0) + 1 }
+        : currentRecord.levelErrors,
+    };
+    persistRecord(currentStudent, updatedRecord);
   };
 
   // Exibir sucesso
@@ -543,21 +562,41 @@ export default function Home() {
   };
 
   const verifyTeacherPassword = () => {
-    if (teacherPassword === "12345678") {
-      setShowTeacherAuthModal(false);
-      setTeacherPassword("");
-      setAuthError(false);
-      acumularTempoNivel();
-      setScreen("teacher");
-    } else {
+    if (teacherPassword !== "12345678") {
       setAuthError(true);
+      return;
     }
+
+    if (!isAuthenticated) {
+      sessionStorage.setItem("open-teacher-panel", "1");
+      setShowTeacherAuthModal(false);
+      startLogin();
+      return;
+    }
+
+    setShowTeacherAuthModal(false);
+    setTeacherPassword("");
+    setAuthError(false);
+    acumularTempoNivel();
+    setScreen("teacher");
   };
 
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    if (sessionStorage.getItem("open-teacher-panel") !== "1") return;
+    sessionStorage.removeItem("open-teacher-panel");
+    setScreen("teacher");
+  }, [isAuthenticated]);
+
   const confirmClearTeacherData = () => {
-    setTeacherRecords({});
-    localStorage.removeItem("teacherRecords");
-    setShowClearDataModal(false);
+    clearProgressMutation.mutate(undefined, {
+      onSuccess: () => {
+        setLocalRecords({});
+        localStorage.removeItem("teacherRecords");
+        setShowClearDataModal(false);
+        void teacherProgressQuery.refetch();
+      },
+    });
   };
 
   const currentLevelData = exercisesDatabase[currentLevelIdx];
@@ -932,16 +971,35 @@ export default function Home() {
                   <p className="text-gray-500 text-sm">
                     Acompanhe acertos, tempo em cada nível e pontos de melhoria de cada criança.
                   </p>
+                  <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados sincronizados entre computadores</p>
                 </div>
-                <button
-                  onClick={() => setShowClearDataModal(true)}
-                  className="self-start md:self-auto border border-red-500 text-red-600 hover:bg-red-50 font-bold px-4 py-2 rounded-full text-sm transition"
-                >
-                  Limpar Histórico 🗑️
-                </button>
+                {user?.role === "admin" ? (
+                  <button
+                    onClick={() => setShowClearDataModal(true)}
+                    className="self-start md:self-auto border border-red-500 text-red-600 hover:bg-red-50 font-bold px-4 py-2 rounded-full text-sm transition"
+                  >
+                    {clearProgressMutation.isPending ? "Limpando..." : "Limpar Histórico 🗑️"}
+                  </button>
+                ) : (
+                  <span className="self-start md:self-auto text-xs text-gray-500 font-bold bg-gray-50 px-3 py-2 rounded-full">
+                    Histórico protegido
+                  </span>
+                )}
               </div>
 
-              {Object.keys(teacherRecords).length === 0 ? (
+              {teacherProgressQuery.isLoading || authLoading ? (
+                <div className="text-center py-12 text-gray-400">
+                  <div className="text-5xl mb-2">☁️</div>
+                  <p className="font-bold text-lg">Sincronizando registros...</p>
+                  <p className="text-sm">Buscando os dados compartilhados no MySQL.</p>
+                </div>
+              ) : teacherProgressQuery.error ? (
+                <div className="text-center py-12 text-red-500">
+                  <div className="text-5xl mb-2">⚠️</div>
+                  <p className="font-bold text-lg">Não foi possível carregar o painel.</p>
+                  <p className="text-sm">Verifique sua conta de educador e tente novamente.</p>
+                </div>
+              ) : Object.keys(teacherRecords).length === 0 ? (
                 <div className="text-center py-12 text-gray-400">
                   <div className="text-5xl mb-2">📊</div>
                   <p className="font-bold text-lg">Nenhum registro de aluno encontrado ainda.</p>
@@ -1077,6 +1135,7 @@ export default function Home() {
               </h3>
               <p className="text-gray-500 font-semibold text-sm mb-4">
                 Digite a senha mágica para acompanhar a evolução das crianças 🎓
+                {!isAuthenticated && " Na primeira vez, entraremos com sua conta de educador."}
               </p>
 
               <div className="mb-4">
@@ -1093,7 +1152,7 @@ export default function Home() {
                 />
                 {authError && (
                   <div className="text-red-500 font-bold text-sm mt-2">
-                    🔒 Senha incorreta! Tente novamente. (Dica padrão: 12345678)
+                    🔒 Senha incorreta! Tente novamente.
                   </div>
                 )}
               </div>
