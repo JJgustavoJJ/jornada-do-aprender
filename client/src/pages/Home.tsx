@@ -576,13 +576,6 @@ export default function Home() {
       return;
     }
 
-    if (!isAuthenticated) {
-      sessionStorage.setItem("open-teacher-panel", "1");
-      setShowTeacherAuthModal(false);
-      startLogin();
-      return;
-    }
-
     setShowTeacherAuthModal(false);
     setTeacherPassword("");
     setAuthError(false);
@@ -987,7 +980,11 @@ export default function Home() {
                   <p className="text-gray-500 text-sm">
                     Acompanhe acertos, tempo em cada nível e pontos de melhoria de cada criança.
                   </p>
-                  <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados sincronizados entre computadores</p>
+                  {isAuthenticated ? (
+                    <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados sincronizados entre computadores</p>
+                  ) : (
+                    <p className="text-xs text-amber-700 font-bold mt-1">💾 Mostrando dados locais deste computador</p>
+                  )}
                   {teacherProgressQuery.dataUpdatedAt > 0 && (
                     <p className="text-[11px] text-gray-400 mt-1">
                       Última atualização: {new Date(teacherProgressQuery.dataUpdatedAt).toLocaleTimeString("pt-BR")}
@@ -995,6 +992,17 @@ export default function Home() {
                   )}
                 </div>
                 <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
+                  {!isAuthenticated && (
+                    <button
+                      onClick={() => {
+                        sessionStorage.setItem("open-teacher-panel", "1");
+                        startLogin();
+                      }}
+                      className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-full text-sm transition"
+                    >
+                      Entrar para sincronizar 🔐
+                    </button>
+                  )}
                   <button
                     onClick={() => void teacherProgressQuery.refetch()}
                     disabled={teacherProgressQuery.isFetching}
@@ -1171,7 +1179,7 @@ export default function Home() {
               </h3>
               <p className="text-gray-500 font-semibold text-sm mb-4">
                 Digite a senha mágica para acompanhar a evolução das crianças 🎓
-                {!isAuthenticated && " Na primeira vez, entraremos com sua conta de educador."}
+                {!isAuthenticated && " O painel abrirá com os dados locais; entre depois para sincronizar entre computadores."}
               </p>
 
               <div className="mb-4">
