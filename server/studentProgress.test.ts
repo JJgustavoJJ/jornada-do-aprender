@@ -29,6 +29,8 @@ const teacher: AuthenticatedUser = {
   lastSignedIn: new Date(),
 };
 
+const regularUser: AuthenticatedUser = { ...teacher, role: "user", openId: "regular-user" };
+
 describe("studentProgress", () => {
   it("requires authentication to read the shared teacher panel", async () => {
     const caller = appRouter.createCaller(createContext());
@@ -60,6 +62,14 @@ describe("studentProgress", () => {
 
     await expect(caller.studentProgress.get({ studentName: " " })).rejects.toMatchObject({
       code: "BAD_REQUEST",
+    });
+  });
+
+  it("does not allow a regular user to clear the shared history", async () => {
+    const caller = appRouter.createCaller(createContext(regularUser));
+
+    await expect(caller.studentProgress.clear()).rejects.toMatchObject({
+      code: "FORBIDDEN",
     });
   });
 });
