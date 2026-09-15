@@ -1,84 +1,130 @@
-A Jornada do Aprender — Documentação do Projeto
-1. Arquitetura
+# 🚀 A Jornada do Aprender
 
-O A Jornada do Aprender é um jogo educativo infantil que utiliza atividades interativas para auxiliar o desenvolvimento da aprendizagem.
+> **Um jogo educativo infantil que transforma o aprendizado em uma experiência divertida, interativa e adaptável.**
 
-As tecnologias utilizadas são:
+<p align="center">
+  <strong>🎨 Aprender • Explorar • Evoluir 🎨</strong>
+</p>
 
-React e TypeScript: desenvolvimento de interfaces dinâmicas e organizadas.
+---
 
-Vite: ferramenta para desenvolvimento e construção do projeto.
+## 📚 Sobre o projeto
 
-HTML, CSS e JavaScript: estrutura, estilo e interatividade das páginas.
+**A Jornada do Aprender** é um jogo educativo desenvolvido para auxiliar crianças em diferentes níveis de aprendizagem. Por meio de atividades interativas, o projeto estimula o desenvolvimento de habilidades de escrita, leitura, matemática e raciocínio lógico.
 
-tRPC: comunicação entre frontend e backend.
+A proposta é respeitar o ritmo de cada criança, oferecendo uma experiência educativa envolvente e acompanhando sua evolução.
 
-MySQL: armazenamento dos dados dos alunos e seus progressos.
+## 🏗️ Arquitetura e tecnologias
 
-Drizzle ORM: integração entre o código e o banco de dados.
+O projeto utiliza uma arquitetura organizada em frontend, backend e banco de dados.
 
-Essas tecnologias foram escolhidas por facilitarem a criação de um sistema interativo, organizado e de fácil manutenção.
+| Tecnologia                | Utilização                                            |
+| ------------------------- | ----------------------------------------------------- |
+| ⚛️ React + TypeScript     | Criação de interfaces dinâmicas e organizadas.        |
+| ⚡ Vite                    | Desenvolvimento e construção da aplicação.            |
+| 🌐 HTML, CSS e JavaScript | Estrutura, estilo e interatividade.                   |
+| 🔗 tRPC                   | Comunicação entre frontend e backend.                 |
+| 🗄️ MySQL                 | Armazenamento dos dados dos alunos e seus progressos. |
+| 📦 Drizzle ORM            | Integração entre o código e o banco de dados.         |
 
-2. Regras de negócio
+Essas tecnologias foram escolhidas para facilitar o desenvolvimento de um sistema interativo, organizado e de fácil manutenção.
+
+## 🎮 Regras de negócio
 
 O jogo possui oito níveis pedagógicos com atividades de desenho, questões de múltipla escolha e respostas digitadas.
 
-Pontuação: baseada nos acertos, erros e tentativas do jogador.
-
-Progressão: o jogador avança de fase ao cumprir os critérios de desempenho das atividades.
-
-Recompensas: o jogo oferece feedback visual, como confetes, e prevê a utilização de estrelas, medalhas e itens desbloqueáveis.
-
-Progresso: o desempenho dos alunos é armazenado para acompanhar sua evolução.
-
-Painel do professor: permite consultar informações sobre o desempenho e as dificuldades dos alunos.
+* **⭐ Pontuação:** baseada nos acertos, erros e tentativas do jogador.
+* **🚩 Progressão:** o jogador avança de fase ao cumprir os critérios de desempenho das atividades.
+* **🏅 Recompensas:** o jogo oferece feedback visual, como confetes, e prevê a utilização de estrelas, medalhas e itens desbloqueáveis.
+* **📈 Progresso:** os dados de desempenho são armazenados para acompanhar a evolução dos alunos.
+* **👨‍🏫 Painel do professor:** permite consultar informações sobre o desempenho e as dificuldades dos alunos.
 
 A proposta é adaptar as atividades às habilidades de cada criança, respeitando seu ritmo de aprendizagem.
 
-3. Estrutura de documentação
+## 📁 Estrutura de documentação
 
-Na raiz do projeto, deve ser criada a pasta /docs, contendo os arquivos:
+A documentação detalhada está organizada na pasta `docs/`, localizada na raiz do projeto:
 
-docs/
-├── arquitetura.md
-└── regras_de_negocio.md
+```text
+jornada-do-aprender/
+├── client/
+├── server/
+├── drizzle/
+├── README.md
+└── docs/
+    ├── arquitetura.md
+    └── regras_de_negocio.md
+```
 
-Esses arquivos apresentarão a arquitetura, as tecnologias utilizadas e as regras de funcionamento do jogo.
+### 📄 Arquivos de documentação
 
-4. Instruções de instalação
-Requisitos
+* [`arquitetura.md`](docs/arquitetura.md) — tecnologias utilizadas e organização do sistema.
+* [`regras_de_negocio.md`](docs/regras_de_negocio.md) — pontuação, progressão, recompensas e funcionamento do jogo.
 
-Node.js
+## ⚙️ Instruções de instalação
 
-pnpm
+### 📋 Requisitos
 
-Git
+Antes de iniciar, instale:
 
-MySQL
+* [Node.js](https://nodejs.org/)
+* [pnpm](https://pnpm.io/)
+* [Git](https://git-scm.com/)
+* MySQL
 
-Passo a passo
+### 🔧 Passo a passo
 
-Clone o repositório:
+**1. Clone o repositório**
 
+```bash
 git clone https://github.com/JJgustavoJJ/jornada-do-aprender.git
+```
 
-Acesse a pasta:
+**2. Acesse a pasta do projeto**
 
+```bash
 cd jornada-do-aprender
+```
 
-Instale as dependências:
+**3. Instale as dependências**
 
+```bash
 pnpm install
+```
 
-Configure a variável DATABASE_URL com os dados do banco MySQL.
+**4. Configure o banco de dados**
 
-Execute as migrações:
+Configure a variável de ambiente `DATABASE_URL` com os dados de conexão do seu banco MySQL.
 
+**5. Execute as migrações**
+
+```bash
 pnpm drizzle-kit generate
 pnpm drizzle-kit migrate
+```
 
-Inicie o projeto:
+**6. Inicie o projeto**
 
+```bash
 pnpm run dev
+```
 
 Após a inicialização, acesse no navegador o endereço informado pelo terminal.
+
+## 🎨 Protótipo no Figma
+
+Confira o protótipo visual e a proposta das telas do jogo:
+
+👉 [Acessar o protótipo no Figma](https://www.figma.com/make/GfBlaowJlofjQVycoYaSf3/Jogo-educativo-interativo?p=f&t=axdve6CL1dtQK3oV-0)
+
+## 👥 Integrantes do projeto
+
+* **Asaf H.**
+* **Gustavo G.**
+* **João A.**
+
+---
+
+<p align="center">
+  🎓 Projeto desenvolvido para fins educacionais.
+</p>
