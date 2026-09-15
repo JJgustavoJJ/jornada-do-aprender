@@ -74,6 +74,10 @@ Antes de iniciar, instale:
 
 ### 🔧 Passo a passo
 
+```bash
+npm install --global pnpm
+```
+
 #### 1. Clone o repositório
 
 ```bash
@@ -109,6 +113,10 @@ pnpm drizzle-kit migrate
 pnpm run dev
 ```
 
+Se o Windows bloquear o acesso, abra o PowerShell como administrador e execute:
+```bash
+netsh advfirewall firewall add rule name="Jornada do Aprender 3000" dir=in action=allow protocol=TCP localport=3000
+```
 Após a inicialização, acesse no navegador o endereço informado pelo terminal.
 
 ## 🎨 Protótipo no Figma
@@ -122,6 +130,8 @@ Confira o protótipo visual e a proposta das telas do jogo:
 * **Asaf H.**
 * **Gustavo G.**
 * **João A.**
+
+
 
 ---
 
