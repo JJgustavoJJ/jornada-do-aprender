@@ -123,7 +123,6 @@ Confira o protótipo visual e a proposta das telas do jogo:
 * **Gustavo G.**
 * **João A.**
 
-http://192.168.0.10:3000
 
 
 ---
