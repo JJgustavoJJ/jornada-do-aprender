@@ -1,12 +1,6 @@
 # 🚀 A Jornada do Aprender
 
-> **Um jogo educativo infantil que transforma o aprendizado em uma experiência divertida, interativa e adaptável.**
-
-<p align="center">
-  <strong>🎨 Aprender • Explorar • Evoluir 🎨</strong>
-</p>
-
----
+> Um jogo educativo infantil que transforma o aprendizado em uma experiência divertida, interativa e adaptável.
 
 ## 📚 Sobre o projeto
 
@@ -43,7 +37,7 @@ A proposta é adaptar as atividades às habilidades de cada criança, respeitand
 
 ## 📁 Estrutura de documentação
 
-A documentação detalhada está organizada na pasta `docs/`, localizada na raiz do projeto:
+A documentação detalhada está organizada na pasta `docs/`, localizada na raiz do projeto.
 
 ```text
 jornada-do-aprender/
@@ -61,6 +55,12 @@ jornada-do-aprender/
 * [`arquitetura.md`](docs/arquitetura.md) — tecnologias utilizadas e organização do sistema.
 * [`regras_de_negocio.md`](docs/regras_de_negocio.md) — pontuação, progressão, recompensas e funcionamento do jogo.
 
+## 🌐 Acessar o sistema
+
+Confira a versão online do **A Jornada do Aprender**:
+
+👉 [Acessar o jogo](https://3000-ihhqw6v4f8dnsidecznu4-576c12bc.us1.manus.computer/)
+
 ## ⚙️ Instruções de instalação
 
 ### 📋 Requisitos
@@ -74,36 +74,36 @@ Antes de iniciar, instale:
 
 ### 🔧 Passo a passo
 
-**1. Clone o repositório**
+#### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/JJgustavoJJ/jornada-do-aprender.git
 ```
 
-**2. Acesse a pasta do projeto**
+#### 2. Acesse a pasta do projeto
 
 ```bash
 cd jornada-do-aprender
 ```
 
-**3. Instale as dependências**
+#### 3. Instale as dependências
 
 ```bash
 pnpm install
 ```
 
-**4. Configure o banco de dados**
+#### 4. Configure o banco de dados
 
 Configure a variável de ambiente `DATABASE_URL` com os dados de conexão do seu banco MySQL.
 
-**5. Execute as migrações**
+#### 5. Execute as migrações
 
 ```bash
 pnpm drizzle-kit generate
 pnpm drizzle-kit migrate
 ```
 
-**6. Inicie o projeto**
+#### 6. Inicie o projeto
 
 ```bash
 pnpm run dev
