@@ -115,7 +115,6 @@ pnpm run dev
 
 Se o Windows bloquear o acesso, abra o PowerShell como administrador e execute:
 ```bash
-powershell
 netsh advfirewall firewall add rule name="Jornada do Aprender 3000" dir=in action=allow protocol=TCP localport=3000
 ```
 Após a inicialização, acesse no navegador o endereço informado pelo terminal.
