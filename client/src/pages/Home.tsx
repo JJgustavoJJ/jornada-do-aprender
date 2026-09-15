@@ -198,10 +198,17 @@ declare global {
 export default function Home() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const trpcUtils = trpc.useUtils();
-  const saveProgressMutation = trpc.studentProgress.save.useMutation();
+  const saveProgressMutation = trpc.studentProgress.save.useMutation({
+    onSuccess: () => {
+      void trpcUtils.studentProgress.list.invalidate();
+    },
+  });
   const teacherProgressQuery = trpc.studentProgress.list.useQuery(undefined, {
     enabled: isAuthenticated,
     retry: 1,
+    staleTime: 0,
+    refetchInterval: isAuthenticated ? 5000 : false,
+    refetchOnWindowFocus: true,
   });
   const clearProgressMutation = trpc.studentProgress.clear.useMutation();
 
@@ -972,6 +979,11 @@ export default function Home() {
                     Acompanhe acertos, tempo em cada nível e pontos de melhoria de cada criança.
                   </p>
                   <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados sincronizados entre computadores</p>
+                  {teacherProgressQuery.dataUpdatedAt > 0 && (
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      Última atualização: {new Date(teacherProgressQuery.dataUpdatedAt).toLocaleTimeString("pt-BR")}
+                    </p>
+                  )}
                 </div>
                 {user?.role === "admin" ? (
                   <button
