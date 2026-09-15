@@ -74,6 +74,10 @@ Antes de iniciar, instale:
 
 ### 🔧 Passo a passo
 
+```bash
+npm install --global pnpm
+```
+
 #### 1. Clone o repositório
 
 ```bash
