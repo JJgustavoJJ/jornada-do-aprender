@@ -5,7 +5,11 @@ if (-not (Get-Command pnpm.cmd -ErrorAction SilentlyContinue)) {
   throw "O comando pnpm não foi encontrado. Instale Node.js e pnpm antes de continuar."
 }
 
-$mysqlCommand = (Get-Command mysql.exe -ErrorAction SilentlyContinue)?.Source
+$mysqlCommandInfo = Get-Command mysql.exe -ErrorAction SilentlyContinue
+$mysqlCommand = $null
+if ($null -ne $mysqlCommandInfo) {
+  $mysqlCommand = $mysqlCommandInfo.Source
+}
 if (-not $mysqlCommand) {
   $mysqlCandidates = @(
     "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe",
