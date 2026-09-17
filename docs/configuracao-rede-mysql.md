@@ -66,6 +66,15 @@ No Windows, libere a porta como Administrador:
 netsh advfirewall firewall add rule name="Jornada do Aprender 3000" dir=in action=allow protocol=TCP localport=3000
 ```
 
+Como alternativa, abra o PowerShell **como Administrador** na pasta do projeto e execute o script pronto:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\liberar-firewall-windows.ps1
+```
+
+Depois da primeira configuração, você pode iniciar o servidor pelo arquivo `scripts\iniciar-servidor-windows.bat`. Ele executa o diagnóstico antes de iniciar e mantém a janela aberta enquanto o jogo estiver funcionando.
+
 Descubra o IPv4 do adaptador Wi-Fi com `ipconfig`. O endereço correto normalmente começa com `192.168.` ou `10.`. `192.168.56.1` costuma ser um adaptador virtual; não use esse endereço se os outros computadores não estiverem nessa mesma rede virtual.
 
 ## 4. Outros computadores
@@ -87,3 +96,7 @@ Não use `http://localhost:3000` nos computadores dos alunos: `localhost` sempre
 5. Se aparecer “Tentando conectar ao banco compartilhado”, o servidor não encontrou o MySQL ou o painel está em uma cópia diferente do servidor.
 
 Os computadores dos alunos não precisam ter MySQL instalado. Apenas o computador servidor precisa ter o `.env`, o MySQL e o processo `pnpm.cmd run dev` ativo. O servidor agora usa exatamente a porta `3000`; se ela estiver ocupada, ele informa o erro em vez de mudar para `3001`, evitando que os outros computadores usem um endereço errado.
+
+## 6. Exportar os resultados
+
+No painel do professor, clique em **Exportar CSV ↓** para baixar todos os registros atuais. O arquivo inclui aluno, acertos, erros, tentativas, níveis concluídos, tempo por nível e erros por nível. O CSV usa `;`, abre corretamente no Excel em português e recebe o nome com a data do download.

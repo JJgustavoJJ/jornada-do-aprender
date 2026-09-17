@@ -303,6 +303,36 @@ export default function Home() {
     timePerLevel: record.timePerLevel,
   });
 
+  const downloadTeacherCsv = () => {
+    const header = [
+      "Aluno",
+      "Acertos",
+      "Erros",
+      "Tentativas",
+      "Níveis concluídos",
+      ...Array.from({ length: 8 }, (_, index) => `Tempo nível ${index + 1} (segundos)`),
+      ...Array.from({ length: 8 }, (_, index) => `Erros nível ${index + 1}`),
+    ];
+    const escapeCsv = (value: string | number) => `"${String(value).replaceAll('"', '""')}"`;
+    const rows = Object.entries(teacherRecords).map(([student, record]) => [
+      student,
+      record.hits || 0,
+      record.errors || 0,
+      record.attempts || 0,
+      Object.keys(record.levelsDone || {}).filter((level) => record.levelsDone[level]).length,
+      ...Array.from({ length: 8 }, (_, index) => record.timePerLevel?.[index + 1] || 0),
+      ...Array.from({ length: 8 }, (_, index) => record.levelErrors?.[index + 1] || 0),
+    ]);
+    const csv = [header, ...rows].map((row) => row.map(escapeCsv).join(";")).join("\r\n");
+    const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `jornada-do-aprender-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const persistRecord = (student: string, record: TeacherRecord) => {
     setLocalRecords((prev) => {
       const updated = { ...prev, [student]: record };
@@ -1005,6 +1035,14 @@ export default function Home() {
                     className="border border-purple-300 text-purple-700 hover:bg-purple-50 disabled:opacity-50 font-bold px-4 py-2 rounded-full text-sm transition"
                   >
                     {teacherProgressQuery.isFetching ? "Atualizando..." : "Atualizar dados ↻"}
+                  </button>
+                  <button
+                    onClick={downloadTeacherCsv}
+                    disabled={Object.keys(teacherRecords).length === 0}
+                    className="border border-emerald-300 text-emerald-700 hover:bg-emerald-50 disabled:opacity-50 font-bold px-4 py-2 rounded-full text-sm transition"
+                    title="Baixa os registros atuais em formato CSV"
+                  >
+                    Exportar CSV ↓
                   </button>
                   {user?.role === "admin" ? (
                     <button
