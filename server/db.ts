@@ -87,8 +87,7 @@ export async function getUserByOpenId(openId: string) {
 export async function listStudentProgress(): Promise<StudentProgress[]> {
   const db = await getDb();
   if (!db) {
-    console.warn("[Database] Cannot list student progress: database not available");
-    return [];
+    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
   }
 
   return db.select().from(studentProgress).orderBy(asc(studentProgress.studentName));
@@ -97,8 +96,7 @@ export async function listStudentProgress(): Promise<StudentProgress[]> {
 export async function getStudentProgress(studentName: string): Promise<StudentProgress | undefined> {
   const db = await getDb();
   if (!db) {
-    console.warn("[Database] Cannot get student progress: database not available");
-    return undefined;
+    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
   }
 
   const result = await db
@@ -113,8 +111,7 @@ export async function getStudentProgress(studentName: string): Promise<StudentPr
 export async function upsertStudentProgress(progress: InsertStudentProgress): Promise<void> {
   const db = await getDb();
   if (!db) {
-    console.warn("[Database] Cannot save student progress: database not available");
-    return;
+    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
   }
 
   await db.insert(studentProgress).values(progress).onDuplicateKeyUpdate({

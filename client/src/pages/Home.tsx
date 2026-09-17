@@ -197,9 +197,14 @@ declare global {
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const trpcUtils = trpc.useUtils();
+  const [syncError, setSyncError] = useState<string | null>(null);
   const saveProgressMutation = trpc.studentProgress.save.useMutation({
     onSuccess: () => {
+      setSyncError(null);
       void trpcUtils.studentProgress.sharedList.invalidate();
+    },
+    onError: (error) => {
+      setSyncError(`Não foi possível salvar no banco compartilhado: ${error.message}`);
     },
   });
   const teacherProgressQuery = trpc.studentProgress.sharedList.useQuery(undefined, {
@@ -245,10 +250,10 @@ export default function Home() {
     }
   });
 
-  const teacherRecords: Record<string, TeacherRecord> =
-    teacherProgressQuery.data && teacherProgressQuery.data.length > 0
-      ? Object.fromEntries(teacherProgressQuery.data.map((record) => [record.studentName, record as TeacherRecord]))
-      : localRecords;
+  const sharedRecords: Record<string, TeacherRecord> = Object.fromEntries(
+    (teacherProgressQuery.data ?? []).map((record) => [record.studentName, record as TeacherRecord])
+  );
+  const teacherRecords: Record<string, TeacherRecord> = { ...localRecords, ...sharedRecords };
 
   // Canvas ref e desenho
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -1018,6 +1023,9 @@ export default function Home() {
                     <p className="text-[11px] text-gray-400 mt-1">
                       Última atualização: {new Date(teacherProgressQuery.dataUpdatedAt).toLocaleTimeString("pt-BR")}
                     </p>
+                  )}
+                  {syncError && (
+                    <p className="text-xs text-red-600 font-bold mt-1">⚠️ {syncError}</p>
                   )}
                 </div>
                 <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
