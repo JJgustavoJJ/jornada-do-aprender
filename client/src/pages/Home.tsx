@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { startLogin } from "@/const";
 import { trpc } from "@/lib/trpc";
 
 // Tipagem dos exercícios
@@ -992,17 +991,14 @@ export default function Home() {
                   )}
                 </div>
                 <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
-                  {!isAuthenticated && (
-                    <button
-                      onClick={() => {
-                        sessionStorage.setItem("open-teacher-panel", "1");
-                        startLogin();
-                      }}
-                      className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-full text-sm transition"
-                    >
-                      Entrar para sincronizar 🔐
-                    </button>
-                  )}
+                  <button
+                    onClick={() => void teacherProgressQuery.refetch()}
+                    disabled={teacherProgressQuery.isFetching}
+                    className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold px-4 py-2 rounded-full text-sm transition"
+                    title="Atualiza os resultados no banco compartilhado"
+                  >
+                    {teacherProgressQuery.isFetching ? "Sincronizando..." : "Sincronizar agora ☁️"}
+                  </button>
                   <button
                     onClick={() => void teacherProgressQuery.refetch()}
                     disabled={teacherProgressQuery.isFetching}
