@@ -1,11 +1,22 @@
 $ErrorActionPreference = "Stop"
 
 Write-Host "=== Configuração do MySQL - A Jornada do Aprender ===" -ForegroundColor Cyan
-if (-not (Get-Command mysql -ErrorAction SilentlyContinue)) {
-  throw "O comando mysql não foi encontrado. Instale o MySQL Server/Client e abra um novo PowerShell."
-}
 if (-not (Get-Command pnpm.cmd -ErrorAction SilentlyContinue)) {
   throw "O comando pnpm não foi encontrado. Instale Node.js e pnpm antes de continuar."
+}
+
+$mysqlCommand = (Get-Command mysql.exe -ErrorAction SilentlyContinue)?.Source
+if (-not $mysqlCommand) {
+  $mysqlCandidates = @(
+    "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe",
+    "C:\Program Files\MySQL\MySQL Server 8.4\bin\mysql.exe",
+    "C:\Program Files\MySQL\MySQL Server 9.0\bin\mysql.exe",
+    "C:\Program Files\MySQL\MySQL Shell 8.0\bin\mysql.exe"
+  )
+  $mysqlCommand = $mysqlCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+}
+if (-not $mysqlCommand) {
+  throw "O comando mysql não foi encontrado. Instale o MySQL Server/Client ou adicione a pasta bin do MySQL ao PATH."
 }
 
 $rootPassword = Read-Host "Senha do usuário root do MySQL" -AsSecureString
@@ -27,7 +38,7 @@ $tempSql = Join-Path $env:TEMP "jornada-aprender-setup.sql"
 $sql | Set-Content -Path $tempSql -Encoding UTF8
 try {
   $sqlArgs = @("-u", "root", "-p$rootPlain", "--protocol=tcp", "-h", "127.0.0.1", "-P", "3306")
-  Get-Content $tempSql | & mysql @sqlArgs
+  Get-Content $tempSql | & $mysqlCommand @sqlArgs
   if ($LASTEXITCODE -ne 0) { throw "O MySQL recusou a criação do banco/usuário." }
 } finally {
   Remove-Item $tempSql -Force -ErrorAction SilentlyContinue
