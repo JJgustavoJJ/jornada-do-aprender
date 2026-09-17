@@ -61,6 +61,22 @@ export const appRouter = router({
         timePerLevel: row.timePerLevel ?? {},
       }));
     }),
+    // O painel local usa esta leitura para funcionar na rede da escola sem
+    // exigir que cada computador faça login OAuth. A proteção administrativa
+    // continua aplicada à limpeza dos dados.
+    sharedList: publicProcedure.query(async () => {
+      const rows = await listStudentProgress();
+      return rows.map((row) => ({
+        studentName: row.studentName,
+        hits: row.hits,
+        errors: row.errors,
+        attempts: row.attempts,
+        levelsDone: row.levelsDone ?? {},
+        levelHits: row.levelHits ?? {},
+        levelErrors: row.levelErrors ?? {},
+        timePerLevel: row.timePerLevel ?? {},
+      }));
+    }),
     clear: adminProcedure.mutation(async () => {
       await clearStudentProgress();
       return { success: true } as const;

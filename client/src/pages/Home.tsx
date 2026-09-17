@@ -200,14 +200,14 @@ export default function Home() {
   const trpcUtils = trpc.useUtils();
   const saveProgressMutation = trpc.studentProgress.save.useMutation({
     onSuccess: () => {
-      void trpcUtils.studentProgress.list.invalidate();
+      void trpcUtils.studentProgress.sharedList.invalidate();
     },
   });
-  const teacherProgressQuery = trpc.studentProgress.list.useQuery(undefined, {
-    enabled: isAuthenticated,
+  const teacherProgressQuery = trpc.studentProgress.sharedList.useQuery(undefined, {
+    enabled: true,
     retry: 1,
     staleTime: 0,
-    refetchInterval: isAuthenticated ? 5000 : false,
+    refetchInterval: 5000,
     refetchOnWindowFocus: true,
   });
   const clearProgressMutation = trpc.studentProgress.clear.useMutation();
@@ -980,10 +980,10 @@ export default function Home() {
                   <p className="text-gray-500 text-sm">
                     Acompanhe acertos, tempo em cada nível e pontos de melhoria de cada criança.
                   </p>
-                  {isAuthenticated ? (
-                    <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados sincronizados entre computadores</p>
+                  {teacherProgressQuery.isSuccess ? (
+                    <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados compartilhados pelo MySQL</p>
                   ) : (
-                    <p className="text-xs text-amber-700 font-bold mt-1">💾 Mostrando dados locais deste computador</p>
+                    <p className="text-xs text-amber-700 font-bold mt-1">💾 Tentando conectar ao banco compartilhado</p>
                   )}
                   {teacherProgressQuery.dataUpdatedAt > 0 && (
                     <p className="text-[11px] text-gray-400 mt-1">
@@ -1025,7 +1025,7 @@ export default function Home() {
                 </div>
               </div>
 
-                {teacherProgressQuery.isLoading && isAuthenticated ? (
+                {teacherProgressQuery.isLoading ? (
                 <div className="text-center py-12 text-gray-400">
                   <div className="text-5xl mb-2">☁️</div>
                   <p className="font-bold text-lg">Sincronizando registros...</p>
