@@ -119,6 +119,10 @@ netsh advfirewall firewall add rule name="Jornada do Aprender 3000" dir=in actio
 ```
 Após a inicialização, acesse no navegador o endereço informado pelo terminal.
 
+### 🌐 Compartilhar resultados entre computadores
+
+Para que os erros e acertos apareçam no painel do professor, apenas um computador deve executar o servidor e conectar ao MySQL. Os demais computadores devem abrir o IP desse servidor, por exemplo `http://10.137.11.215:3000`; não devem usar `localhost:3000`. Consulte o [guia completo de configuração da rede e do MySQL](docs/configuracao-rede-mysql.md) e execute `pnpm run diagnose` no computador servidor.
+
 ## 🎨 Protótipo no Figma
 
 Confira o protótipo visual e a proposta das telas do jogo:
