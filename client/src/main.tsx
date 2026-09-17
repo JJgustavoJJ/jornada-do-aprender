@@ -14,6 +14,11 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
   if (typeof window === "undefined") return;
 
+  // No desenvolvimento local, o painel do professor funciona com o cache
+  // local e não deve abandonar a página para um OAuth hospedado.
+  const isLocalHost = ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
+  if (isLocalHost) return;
+
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
 
   if (!isUnauthorized) return;

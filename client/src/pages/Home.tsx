@@ -196,7 +196,7 @@ declare global {
 }
 
 export default function Home() {
-  const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const trpcUtils = trpc.useUtils();
   const saveProgressMutation = trpc.studentProgress.save.useMutation({
     onSuccess: () => {
@@ -1025,7 +1025,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {teacherProgressQuery.isLoading || authLoading ? (
+                {teacherProgressQuery.isLoading && isAuthenticated ? (
                 <div className="text-center py-12 text-gray-400">
                   <div className="text-5xl mb-2">☁️</div>
                   <p className="font-bold text-lg">Sincronizando registros...</p>
