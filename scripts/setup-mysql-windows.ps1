@@ -4,7 +4,7 @@ Write-Host "=== Configuração do MySQL - A Jornada do Aprender ===" -Foreground
 if (-not (Get-Command mysql -ErrorAction SilentlyContinue)) {
   throw "O comando mysql não foi encontrado. Instale o MySQL Server/Client e abra um novo PowerShell."
 }
-if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
+if (-not (Get-Command pnpm.cmd -ErrorAction SilentlyContinue)) {
   throw "O comando pnpm não foi encontrado. Instale Node.js e pnpm antes de continuar."
 }
 
@@ -41,7 +41,10 @@ PORT=3000
 NODE_ENV=development
 "@ | Set-Content -Path ".env" -Encoding UTF8
 
-pnpm db:push
-pnpm run diagnose
+$pnpm = "pnpm.cmd"
+& $pnpm db:push
+if ($LASTEXITCODE -ne 0) { throw "A criação das tabelas falhou." }
+& $pnpm run diagnose
+if ($LASTEXITCODE -ne 0) { throw "O diagnóstico encontrou um problema." }
 Write-Host "Configuração concluída. Agora execute: pnpm run dev" -ForegroundColor Green
 Write-Host "Nunca envie o arquivo .env ao GitHub." -ForegroundColor Yellow
