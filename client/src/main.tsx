@@ -17,7 +17,8 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
   // No desenvolvimento local, o painel do professor funciona com o cache
   // local e não deve abandonar a página para um OAuth hospedado.
   const isLocalHost = ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
-  if (isLocalHost) return;
+  const isPrivateNetworkHost = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(window.location.hostname);
+  if (isLocalHost || isPrivateNetworkHost) return;
 
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
 

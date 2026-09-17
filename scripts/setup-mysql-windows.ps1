@@ -61,5 +61,5 @@ $pnpm = "pnpm.cmd"
 if ($LASTEXITCODE -ne 0) { throw "A criação das tabelas falhou." }
 & $pnpm run diagnose
 if ($LASTEXITCODE -ne 0) { throw "O diagnóstico encontrou um problema." }
-Write-Host "Configuração concluída. Agora execute: pnpm run dev" -ForegroundColor Green
+Write-Host "Configuração concluída. Agora execute: pnpm.cmd run dev" -ForegroundColor Green
 Write-Host "Nunca envie o arquivo .env ao GitHub." -ForegroundColor Yellow

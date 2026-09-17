@@ -93,7 +93,7 @@ cd jornada-do-aprender
 #### 3. Instale as dependências
 
 ```bash
-pnpm install
+pnpm.cmd install
 ```
 
 #### 4. Configure o banco de dados
@@ -103,14 +103,14 @@ Configure a variável de ambiente `DATABASE_URL` com os dados de conexão do seu
 #### 5. Execute as migrações
 
 ```bash
-pnpm drizzle-kit generate
-pnpm drizzle-kit migrate
+pnpm.cmd drizzle-kit generate
+pnpm.cmd drizzle-kit migrate
 ```
 
 #### 6. Inicie o projeto
 
 ```bash
-pnpm run dev
+pnpm.cmd run dev
 ```
 
 Se o Windows bloquear o acesso, abra o PowerShell como administrador e execute:
@@ -121,7 +121,7 @@ Após a inicialização, acesse no navegador o endereço informado pelo terminal
 
 ### 🌐 Compartilhar resultados entre computadores
 
-Para que os erros e acertos apareçam no painel do professor, apenas um computador deve executar o servidor e conectar ao MySQL. Os demais computadores devem abrir o IP desse servidor, por exemplo `http://10.137.11.215:3000`; não devem usar `localhost:3000`. Consulte o [guia completo de configuração da rede e do MySQL](docs/configuracao-rede-mysql.md) e execute `pnpm run diagnose` no computador servidor.
+Para que os erros e acertos apareçam no painel do professor, apenas um computador deve executar o servidor e conectar ao MySQL. Os demais computadores devem abrir o IP desse servidor, por exemplo `http://10.137.11.215:3000`; não devem usar `localhost:3000`. Consulte o [guia completo de configuração da rede e do MySQL](docs/configuracao-rede-mysql.md) e execute `pnpm.cmd run diagnose` no computador servidor.
 
 ## 🎨 Protótipo no Figma
 

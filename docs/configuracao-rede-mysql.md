@@ -9,7 +9,7 @@ No computador principal, instale Node.js LTS, Git, pnpm e MySQL. Depois clone o 
 ```bat
 git clone https://github.com/JJgustavoJJ/jornada-do-aprender.git
 cd jornada-do-aprender
-pnpm install
+pnpm.cmd install
 ```
 
 Para automatizar a criação do banco, do usuário, do arquivo `.env` e das tabelas, execute no PowerShell:
@@ -46,8 +46,8 @@ FLUSH PRIVILEGES;
 Em seguida, dentro da pasta do projeto, crie as tabelas:
 
 ```bat
-pnpm db:push
-pnpm run diagnose
+pnpm.cmd db:push
+pnpm.cmd run diagnose
 ```
 
 O diagnóstico deve informar que o banco está conectado e que a porta 3000 está disponível.
@@ -55,7 +55,7 @@ O diagnóstico deve informar que o banco está conectado e que a porta 3000 est�
 ## 3. Iniciar na porta fixa
 
 ```bat
-pnpm run dev
+pnpm.cmd run dev
 ```
 
 O terminal deve informar `Server running on http://localhost:3000/`. Se ele informar outra porta, encerre o processo que está usando a 3000 ou defina `PORT` corretamente no `.env`.
@@ -86,4 +86,4 @@ Não use `http://localhost:3000` nos computadores dos alunos: `localhost` sempre
 4. O painel consulta o MySQL compartilhado e atualiza a cada 5 segundos.
 5. Se aparecer “Tentando conectar ao banco compartilhado”, o servidor não encontrou o MySQL ou o painel está em uma cópia diferente do servidor.
 
-Os computadores dos alunos não precisam ter MySQL instalado. Apenas o computador servidor precisa ter o `.env`, o MySQL e o processo `pnpm run dev` ativo.
+Os computadores dos alunos não precisam ter MySQL instalado. Apenas o computador servidor precisa ter o `.env`, o MySQL e o processo `pnpm.cmd run dev` ativo. O servidor agora usa exatamente a porta `3000`; se ela estiver ocupada, ele informa o erro em vez de mudar para `3001`, evitando que os outros computadores usem um endereço errado.
