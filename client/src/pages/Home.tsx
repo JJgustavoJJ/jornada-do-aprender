@@ -252,7 +252,7 @@ export default function Home() {
   });
 
   const sharedRecords: Record<string, TeacherRecord> = Object.fromEntries(
-    (teacherProgressQuery.data ?? []).map((record) => [record.studentName, record as TeacherRecord])
+    (teacherProgressQuery.data?.records ?? []).map((record) => [record.studentName, record as TeacherRecord])
   );
   const teacherRecords: Record<string, TeacherRecord> = { ...localRecords, ...sharedRecords };
 
@@ -1040,17 +1040,17 @@ export default function Home() {
                   <p className="text-gray-500 text-sm">
                     Acompanhe acertos, tempo em cada nível e pontos de melhoria de cada criança.
                   </p>
-                  {teacherProgressQuery.isSuccess ? (
+                  {teacherProgressQuery.data?.storage === "shared" ? (
                     <p className="text-xs text-emerald-700 font-bold mt-1">☁️ Dados compartilhados pelo MySQL</p>
                   ) : (
-                    <p className="text-xs text-amber-700 font-bold mt-1">💾 Tentando conectar ao banco compartilhado</p>
+                    <p className="text-xs text-amber-700 font-bold mt-1">💾 Modo local ativo — os registros ficam salvos neste dispositivo</p>
                   )}
                   {teacherProgressQuery.dataUpdatedAt > 0 && (
                     <p className="text-[11px] text-gray-400 mt-1">
                       Última atualização: {new Date(teacherProgressQuery.dataUpdatedAt).toLocaleTimeString("pt-BR")}
                     </p>
                   )}
-                  {syncError && (
+                  {syncError && teacherProgressQuery.data?.storage === "shared" && (
                     <p className="text-xs text-red-600 font-bold mt-1">⚠️ {syncError}</p>
                   )}
                 </div>
@@ -1100,15 +1100,15 @@ export default function Home() {
                   <p className="text-sm">Buscando os dados compartilhados no MySQL.</p>
                 </div>
               ) : teacherProgressQuery.error ? (
-                <div className="text-center py-12 text-red-500">
-                  <div className="text-5xl mb-2">⚠️</div>
-                  <p className="font-bold text-lg">Não foi possível carregar o painel.</p>
-                  <p className="text-sm mb-4">Verifique sua conta de educador e tente novamente.</p>
+                <div className="text-center py-12 text-amber-600">
+                  <div className="text-5xl mb-2">💾</div>
+                  <p className="font-bold text-lg">Painel local disponível.</p>
+                  <p className="text-sm mb-4">Os registros deste dispositivo continuam acessíveis mesmo sem o MySQL.</p>
                   <button
                     onClick={() => void teacherProgressQuery.refetch()}
                     className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-2 rounded-full transition"
                   >
-                    Tentar novamente
+                    Atualizar conexão
                   </button>
                 </div>
               ) : Object.keys(teacherRecords).length === 0 ? (

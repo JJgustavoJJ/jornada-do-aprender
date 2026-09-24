@@ -96,7 +96,7 @@ export async function listStudentProgress(): Promise<StudentProgress[]> {
 export async function getStudentProgress(studentName: string): Promise<StudentProgress | undefined> {
   const db = await getDb();
   if (!db) {
-    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
+    return undefined;
   }
 
   const result = await db
@@ -111,21 +111,26 @@ export async function getStudentProgress(studentName: string): Promise<StudentPr
 export async function upsertStudentProgress(progress: InsertStudentProgress): Promise<void> {
   const db = await getDb();
   if (!db) {
-    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
+    // O cache local do navegador mantém o jogo utilizável sem MySQL.
+    return;
   }
 
-  await db.insert(studentProgress).values(progress).onDuplicateKeyUpdate({
-    set: {
-      hits: progress.hits,
-      errors: progress.errors,
-      attempts: progress.attempts,
-      levelsDone: progress.levelsDone,
-      levelHits: progress.levelHits,
-      levelErrors: progress.levelErrors,
-      timePerLevel: progress.timePerLevel,
-      updatedAt: new Date(),
-    },
-  });
+  try {
+    await db.insert(studentProgress).values(progress).onDuplicateKeyUpdate({
+      set: {
+        hits: progress.hits,
+        errors: progress.errors,
+        attempts: progress.attempts,
+        levelsDone: progress.levelsDone,
+        levelHits: progress.levelHits,
+        levelErrors: progress.levelErrors,
+        timePerLevel: progress.timePerLevel,
+        updatedAt: new Date(),
+      },
+    });
+  } catch (error) {
+    console.warn("[Database] Não foi possível sincronizar; mantendo o progresso local", error);
+  }
 }
 
 export async function clearStudentProgress(): Promise<void> {
