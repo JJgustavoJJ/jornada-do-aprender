@@ -141,7 +141,7 @@ ALTER USER 'jornada_user'@'127.0.0.1'
 A senha deste exemplo é:
 
 ```text
-12345678
+JornadaAprender2026
 ```
 
 Você pode usar outra senha, mas precisa colocar exatamente a mesma senha no arquivo `.env`.
