@@ -78,112 +78,112 @@ const exercisesDatabase: Record<number, LevelData> = {
     title: "Nível 2: Escrevo do meu jeito!",
     type: "draw",
     items: [
-      { instruction: "Desenhe uma maçã 🍎 do seu jeito no quadro!", speech: "Desenhe uma maçã do seu jeito!", img: "/word-images/maca.svg" },
-      { instruction: "Desenhe um sol ☀️ bem brilhante!", speech: "Desenhe um sol bem bonito!", img: "/word-images/sol.svg" },
-      { instruction: "Desenhe uma casa 🏠 do seu jeito!", speech: "Desenhe uma casa do seu jeito!", img: "/word-images/casa.svg" },
-      { instruction: "Desenhe uma estrela ⭐️ no quadro!", speech: "Desenhe uma estrela brilhante!", img: "/word-images/estrela.svg" },
-      { instruction: "Desenhe uma flor 🌸 colorida!", speech: "Desenhe uma flor do seu jeito!", img: "/word-images/flor.svg" },
-      { instruction: "Desenhe uma árvore 🌳 grande!", speech: "Desenhe uma árvore bem bonita!", img: "/word-images/arvore.svg" },
-      { instruction: "Desenhe um peixinho 🐟 nadando!", speech: "Desenhe um peixinho nadando!", img: "/word-images/peixe.svg" },
-      { instruction: "Desenhe uma bola ⚽ para brincar!", speech: "Desenhe uma bola para brincar!", img: "/word-images/bola.svg" },
-      { instruction: "Desenhe um carrinho 🚗 no quadro!", speech: "Desenhe um carrinho bem legal!", img: "/word-images/carrinho.svg" },
-      { instruction: "Desenhe um sorvete 🍦 gostoso!", speech: "Desenhe um sorvete bem gostoso!", img: "/word-images/sorvete.svg" }
+      { instruction: "Desenhe uma maçã 🍎 do seu jeito no quadro!", speech: "Desenhe uma maçã do seu jeito!", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe um sol ☀️ bem brilhante!", speech: "Desenhe um sol bem bonito!", img: "/manus-storage/sun_573be81f.jpg" },
+      { instruction: "Desenhe uma casa 🏠 do seu jeito!", speech: "Desenhe uma casa do seu jeito!", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe uma estrela ⭐️ no quadro!", speech: "Desenhe uma estrela brilhante!", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe uma flor 🌸 colorida!", speech: "Desenhe uma flor do seu jeito!", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe uma árvore 🌳 grande!", speech: "Desenhe uma árvore bem bonita!", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe um peixinho 🐟 nadando!", speech: "Desenhe um peixinho nadando!", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe uma bola ⚽ para brincar!", speech: "Desenhe uma bola para brincar!", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe um carrinho 🚗 no quadro!", speech: "Desenhe um carrinho bem legal!", img: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80" },
+      { instruction: "Desenhe um sorvete 🍦 gostoso!", speech: "Desenhe um sorvete bem gostoso!", img: "/manus-storage/ice-cream_5572c8a4.jpg" }
     ]
   },
   3: {
     title: "Nível 3: Conheço letras!",
     type: "choice",
     items: [
-      { instruction: "Qual opção tem apenas letras para BOLA?", speech: "Qual opção tem apenas letras?", img: "/word-images/bola.svg", options: ["1 2 3 4 5", "A O E I", "# $ % *"], correct: 1 },
-      { instruction: "Qual opção tem letras para escrever GATO?", speech: "Qual opção tem letras para escrever GATO?", img: "/word-images/gato.svg", options: ["@ & ! ?", "G A T O", "9 8 7 6"], correct: 1 },
-      { instruction: "Encontre as letras para escrever FLOR:", speech: "Encontre o grupo de letras para FLOR.", img: "/word-images/flor.svg", options: ["F L O R", "5 4 3 2", "+ - = /"], correct: 0 },
-      { instruction: "Qual das opções contém letras da palavra CASA?", speech: "Qual opção tem apenas letras?", img: "/word-images/casa.svg", options: ["7 4 1 0", "C A S A", "△ ◯ □ ☆"], correct: 1 },
-      { instruction: "Marque o conjunto que possui apenas letras:", speech: "Marque o conjunto que possui letras.", img: "/word-images/sol.svg", options: ["1 3 5 7", "9 8 2 4", "S O L"], correct: 2 },
-      { instruction: "Qual grupo tem letras para a palavra PEIXE?", speech: "Qual grupo tem apenas letras?", img: "/word-images/peixe.svg", options: ["P E I X E", "8 4 2 1", "# @ ! &"], correct: 0 },
-      { instruction: "Marque a opção com letras verdadeiras:", speech: "Qual grupo é formado por letras?", img: "/word-images/banana.svg", options: ["3 7 9 0", "B A N A N A", "* % $ @"], correct: 1 },
-      { instruction: "Aonde estão as letras para LUA?", speech: "Encontre as letras da palavra LUA.", img: "/word-images/estrela.svg", options: ["5 6 7", "L U A", "! ? #"], correct: 1 },
-      { instruction: "Qual opção é usada para escrever DADO?", speech: "Escolha o grupo de letras.", img: "/word-images/dado.svg", options: ["D A D O", "1 9 3 2", "◯ □ △"], correct: 0 },
-      { instruction: "Identifique o conjunto de letras:", speech: "Qual conjunto traz apenas letras?", img: "/word-images/macaco.svg", options: ["# % &", "9 2 4", "M A C A C O"], correct: 2 }
+      { instruction: "Qual opção tem apenas letras para BOLA?", speech: "Qual opção tem apenas letras?", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80", options: ["1 2 3 4 5", "A O E I", "# $ % *"], correct: 1 },
+      { instruction: "Qual opção tem letras para escrever GATO?", speech: "Qual opção tem letras para escrever GATO?", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", options: ["@ & ! ?", "G A T O", "9 8 7 6"], correct: 1 },
+      { instruction: "Encontre as letras para escrever FLOR:", speech: "Encontre o grupo de letras para FLOR.", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80", options: ["F L O R", "5 4 3 2", "+ - = /"], correct: 0 },
+      { instruction: "Qual das opções contém letras da palavra CASA?", speech: "Qual opção tem apenas letras?", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=400&q=80", options: ["7 4 1 0", "C A S A", "△ ◯ □ ☆"], correct: 1 },
+      { instruction: "Marque o conjunto que possui apenas letras:", speech: "Marque o conjunto que possui letras.", img: "/manus-storage/sun_573be81f.jpg", options: ["1 3 5 7", "9 8 2 4", "S O L"], correct: 2 },
+      { instruction: "Qual grupo tem letras para a palavra PEIXE?", speech: "Qual grupo tem apenas letras?", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80", options: ["P E I X E", "8 4 2 1", "# @ ! &"], correct: 0 },
+      { instruction: "Marque a opção com letras verdadeiras:", speech: "Qual grupo é formado por letras?", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80", options: ["3 7 9 0", "B A N A N A", "* % $ @"], correct: 1 },
+      { instruction: "Aonde estão as letras para LUA?", speech: "Encontre as letras da palavra LUA.", img: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80", options: ["5 6 7", "L U A", "! ? #"], correct: 1 },
+      { instruction: "Qual opção é usada para escrever DADO?", speech: "Escolha o grupo de letras.", img: "/manus-storage/dice_19ee8745.jpg", options: ["D A D O", "1 9 3 2", "◯ □ △"], correct: 0 },
+      { instruction: "Identifique o conjunto de letras:", speech: "Qual conjunto traz apenas letras?", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80", options: ["# % &", "9 2 4", "M A C A C O"], correct: 2 }
     ]
   },
   4: {
     title: "Nível 4: Conto as sílabas!",
     type: "choice",
     items: [
-      { instruction: "Quantas sílabas tem a palavra CA-VA-LO?", speech: "Quantas sílabas tem a palavra CAVALO?", img: "/word-images/cavalo.svg", options: ["2 sílabas", "3 sílabas", "5 sílabas"], correct: 1 },
-      { instruction: "Quantas sílabas tem a palavra BO-LA?", speech: "Quantas sílabas tem a palavra BOLA?", img: "/word-images/bola.svg", options: ["2 sílabas", "4 sílabas", "1 sílaba"], correct: 0 },
-      { instruction: "Quantas sílabas tem a palavra PI-PO-CA?", speech: "Quantas sílabas tem a palavra PIPOCA?", img: "/word-images/pipoca.svg", options: ["1 sílaba", "4 sílabas", "3 sílabas"], correct: 2 },
-      { instruction: "Quantas sílabas tem a palavra SOL?", speech: "Quantas sílabas tem a palavra SOL?", img: "/word-images/sol.svg", options: ["1 sílaba", "2 sílabas", "3 sílabas"], correct: 0 },
-      { instruction: "Quantas sílabas tem a palavra MA-CA-CO?", speech: "Quantas sílabas tem a palavra MACACO?", img: "/word-images/macaco.svg", options: ["2 sílabas", "3 sílabas", "4 sílabas"], correct: 1 },
-      { instruction: "Quantas sílabas tem a palavra BO-NE-CA?", speech: "Quantas sílabas tem a palavra BONECA?", img: "/word-images/boneca.svg", options: ["3 sílabas", "2 sílabas", "1 sílaba"], correct: 0 },
-      { instruction: "Quantas sílabas tem a palavra GA-TO?", speech: "Quantas sílabas tem a palavra GATO?", img: "/word-images/gato.svg", options: ["2 sílabas", "1 sílaba", "3 sílabas"], correct: 0 },
-      { instruction: "Quantas sílabas tem a palavra BA-NA-NA?", speech: "Quantas sílabas tem a palavra BANANA?", img: "/word-images/banana.svg", options: ["2 sílabas", "3 sílabas", "4 sílabas"], correct: 1 },
-      { instruction: "Quantas sílabas tem a palavra PEI-XE?", speech: "Quantas sílabas tem a palavra PEIXE?", img: "/word-images/peixe.svg", options: ["2 sílabas", "3 sílabas", "1 sílaba"], correct: 0 },
-      { instruction: "Quantas sílabas tem a palavra SA-PA-TO?", speech: "Quantas sílabas tem a palavra SAPATO?", img: "/word-images/sapato.svg", options: ["4 sílabas", "2 sílabas", "3 sílabas"], correct: 2 }
+      { instruction: "Quantas sílabas tem a palavra CA-VA-LO?", speech: "Quantas sílabas tem a palavra CAVALO?", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80", options: ["2 sílabas", "3 sílabas", "5 sílabas"], correct: 1 },
+      { instruction: "Quantas sílabas tem a palavra BO-LA?", speech: "Quantas sílabas tem a palavra BOLA?", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80", options: ["2 sílabas", "4 sílabas", "1 sílaba"], correct: 0 },
+      { instruction: "Quantas sílabas tem a palavra PI-PO-CA?", speech: "Quantas sílabas tem a palavra PIPOCA?", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=400&q=80", options: ["1 sílaba", "4 sílabas", "3 sílabas"], correct: 2 },
+      { instruction: "Quantas sílabas tem a palavra SOL?", speech: "Quantas sílabas tem a palavra SOL?", img: "/manus-storage/sun_573be81f.jpg", options: ["1 sílaba", "2 sílabas", "3 sílabas"], correct: 0 },
+      { instruction: "Quantas sílabas tem a palavra MA-CA-CO?", speech: "Quantas sílabas tem a palavra MACACO?", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80", options: ["2 sílabas", "3 sílabas", "4 sílabas"], correct: 1 },
+      { instruction: "Quantas sílabas tem a palavra BO-NE-CA?", speech: "Quantas sílabas tem a palavra BONECA?", img: "/manus-storage/doll_e3cb17ec.jpg", options: ["3 sílabas", "2 sílabas", "1 sílaba"], correct: 0 },
+      { instruction: "Quantas sílabas tem a palavra GA-TO?", speech: "Quantas sílabas tem a palavra GATO?", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", options: ["2 sílabas", "1 sílaba", "3 sílabas"], correct: 0 },
+      { instruction: "Quantas sílabas tem a palavra BA-NA-NA?", speech: "Quantas sílabas tem a palavra BANANA?", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80", options: ["2 sílabas", "3 sílabas", "4 sílabas"], correct: 1 },
+      { instruction: "Quantas sílabas tem a palavra PEI-XE?", speech: "Quantas sílabas tem a palavra PEIXE?", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80", options: ["2 sílabas", "3 sílabas", "1 sílaba"], correct: 0 },
+      { instruction: "Quantas sílabas tem a palavra SA-PA-TO?", speech: "Quantas sílabas tem a palavra SAPATO?", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80", options: ["4 sílabas", "2 sílabas", "3 sílabas"], correct: 2 }
     ]
   },
   5: {
     title: "Nível 5: Uma letra por sílaba!",
     type: "choice",
     items: [
-      { instruction: "Para GATO (2 sílabas), qual opção usa 2 letras?", speech: "Para GATO, qual opção usa duas letras?", img: "/word-images/gato.svg", options: ["X T P", "M O", "B R L K"], correct: 1 },
-      { instruction: "Para PIPOCA (3 sílabas), qual opção usa 3 letras?", speech: "Para PIPOCA, qual opção usa três letras?", img: "/word-images/pipoca.svg", options: ["P P C", "P C", "P I P O C A"], correct: 0 },
-      { instruction: "Para BONECA (3 sílabas), escolha a opção de 3 letras:", speech: "Para BONECA, escolha a opção com três letras.", img: "/word-images/boneca.svg", options: ["B N C", "B N", "B O N E C A"], correct: 0 },
-      { instruction: "Para CAVALO (3 sílabas), escolha a opção de 3 letras:", speech: "Para CAVALO, escolha a opção com três letras.", img: "/word-images/cavalo.svg", options: ["C V L", "C V", "C A V A L O"], correct: 0 },
-      { instruction: "Para BOLA (2 sílabas), escolha a opção de 2 letras:", speech: "Para BOLA, escolha a opção com duas letras.", img: "/word-images/bola.svg", options: ["B L", "B O L A", "B L X Y"], correct: 0 },
-      { instruction: "Para MACACO (3 sílabas), escolha 3 letras:", speech: "Para MACACO, escolha a opção com três letras.", img: "/word-images/macaco.svg", options: ["M C K", "M C", "M A C A C O"], correct: 0 },
-      { instruction: "Para BANANA (3 sílabas), escolha 3 letras:", speech: "Para BANANA, escolha a opção com três letras.", img: "/word-images/banana.svg", options: ["B N N", "B N", "B A N A N A"], correct: 0 },
-      { instruction: "Para SAPATO (3 sílabas), escolha 3 letras:", speech: "Para SAPATO, escolha a opção de três letras.", img: "/word-images/sapato.svg", options: ["S P T", "S P", "S A P A T O"], correct: 0 },
-      { instruction: "Para PEIXE (2 sílabas), escolha 2 letras:", speech: "Para PEIXE, escolha a opção de duas letras.", img: "/word-images/peixe.svg", options: ["P X", "P X O L", "P E I X E"], correct: 0 },
-      { instruction: "Para CASA (2 sílabas), escolha 2 letras:", speech: "Para CASA, escolha a opção de duas letras.", img: "/word-images/casa.svg", options: ["C S", "C S P K", "C A S A"], correct: 0 }
+      { instruction: "Para GATO (2 sílabas), qual opção usa 2 letras?", speech: "Para GATO, qual opção usa duas letras?", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", options: ["X T P", "M O", "B R L K"], correct: 1 },
+      { instruction: "Para PIPOCA (3 sílabas), qual opção usa 3 letras?", speech: "Para PIPOCA, qual opção usa três letras?", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=400&q=80", options: ["P P C", "P C", "P I P O C A"], correct: 0 },
+      { instruction: "Para BONECA (3 sílabas), escolha a opção de 3 letras:", speech: "Para BONECA, escolha a opção com três letras.", img: "/manus-storage/doll_e3cb17ec.jpg", options: ["B N C", "B N", "B O N E C A"], correct: 0 },
+      { instruction: "Para CAVALO (3 sílabas), escolha a opção de 3 letras:", speech: "Para CAVALO, escolha a opção com três letras.", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80", options: ["C V L", "C V", "C A V A L O"], correct: 0 },
+      { instruction: "Para BOLA (2 sílabas), escolha a opção de 2 letras:", speech: "Para BOLA, escolha a opção com duas letras.", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80", options: ["B L", "B O L A", "B L X Y"], correct: 0 },
+      { instruction: "Para MACACO (3 sílabas), escolha 3 letras:", speech: "Para MACACO, escolha a opção com três letras.", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80", options: ["M C K", "M C", "M A C A C O"], correct: 0 },
+      { instruction: "Para BANANA (3 sílabas), escolha 3 letras:", speech: "Para BANANA, escolha a opção com três letras.", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80", options: ["B N N", "B N", "B A N A N A"], correct: 0 },
+      { instruction: "Para SAPATO (3 sílabas), escolha 3 letras:", speech: "Para SAPATO, escolha a opção de três letras.", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80", options: ["S P T", "S P", "S A P A T O"], correct: 0 },
+      { instruction: "Para PEIXE (2 sílabas), escolha 2 letras:", speech: "Para PEIXE, escolha a opção de duas letras.", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80", options: ["P X", "P X O L", "P E I X E"], correct: 0 },
+      { instruction: "Para CASA (2 sílabas), escolha 2 letras:", speech: "Para CASA, escolha a opção de duas letras.", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=400&q=80", options: ["C S", "C S P K", "C A S A"], correct: 0 }
     ]
   },
   6: {
     title: "Nível 6: Ouço o som da vogal!",
     type: "choice",
     items: [
-      { instruction: "Para PI-PO-CA, escolha os sons das vogais:", speech: "Para PIPOCA, escolha as vogais certas do som.", img: "/word-images/pipoca.svg", options: ["A - E - U", "I - O - A", "E - O - I"], correct: 1 },
-      { instruction: "Para CA-VA-LO, escolha os sons das vogais:", speech: "Para CAVALO, escolha as vogais certas do som.", img: "/word-images/cavalo.svg", options: ["A - A - O", "E - E - U", "I - O - A"], correct: 0 },
-      { instruction: "Para GA-TO, escolha as vogais correspondentes:", speech: "Para GATO, escolha as vogais do som.", img: "/word-images/gato.svg", options: ["A - O", "E - I", "U - A"], correct: 0 },
-      { instruction: "Para BO-LA, escolha as vogais do som:", speech: "Para BOLA, escolha as vogais.", img: "/word-images/bola.svg", options: ["O - A", "I - E", "U - U"], correct: 0 },
-      { instruction: "Para CA-SA, escolha as vogais do som:", speech: "Para CASA, escolha as vogais.", img: "/word-images/casa.svg", options: ["A - A", "E - O", "I - U"], correct: 0 },
-      { instruction: "Para BA-NA-NA, escolha as vogais do som:", speech: "Para BANANA, escolha as vogais.", img: "/word-images/banana.svg", options: ["A - A - A", "O - O - O", "I - E - A"], correct: 0 },
-      { instruction: "Para SA-PA-TO, escolha as vogais do som:", speech: "Para SAPATO, escolha as vogais.", img: "/word-images/sapato.svg", options: ["A - A - O", "E - U - I", "O - O - A"], correct: 0 },
-      { instruction: "Para BO-NE-CA, escolha as vogais do som:", speech: "Para BONECA, escolha as vogais.", img: "/word-images/boneca.svg", options: ["O - E - A", "U - I - A", "E - O - U"], correct: 0 },
-      { instruction: "Para MA-CA-CO, escolha as vogais do som:", speech: "Para MACACO, escolha as vogais.", img: "/word-images/macaco.svg", options: ["A - A - O", "I - U - O", "E - A - I"], correct: 0 },
-      { instruction: "Para PEI-XE, escolha as vogais do som:", speech: "Para PEIXE, escolha as vogais.", img: "/word-images/peixe.svg", options: ["E - E", "A - O", "U - I"], correct: 0 }
+      { instruction: "Para PI-PO-CA, escolha os sons das vogais:", speech: "Para PIPOCA, escolha as vogais certas do som.", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=400&q=80", options: ["A - E - U", "I - O - A", "E - O - I"], correct: 1 },
+      { instruction: "Para CA-VA-LO, escolha os sons das vogais:", speech: "Para CAVALO, escolha as vogais certas do som.", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80", options: ["A - A - O", "E - E - U", "I - O - A"], correct: 0 },
+      { instruction: "Para GA-TO, escolha as vogais correspondentes:", speech: "Para GATO, escolha as vogais do som.", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", options: ["A - O", "E - I", "U - A"], correct: 0 },
+      { instruction: "Para BO-LA, escolha as vogais do som:", speech: "Para BOLA, escolha as vogais.", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80", options: ["O - A", "I - E", "U - U"], correct: 0 },
+      { instruction: "Para CA-SA, escolha as vogais do som:", speech: "Para CASA, escolha as vogais.", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=400&q=80", options: ["A - A", "E - O", "I - U"], correct: 0 },
+      { instruction: "Para BA-NA-NA, escolha as vogais do som:", speech: "Para BANANA, escolha as vogais.", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80", options: ["A - A - A", "O - O - O", "I - E - A"], correct: 0 },
+      { instruction: "Para SA-PA-TO, escolha as vogais do som:", speech: "Para SAPATO, escolha as vogais.", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80", options: ["A - A - O", "E - U - I", "O - O - A"], correct: 0 },
+      { instruction: "Para BO-NE-CA, escolha as vogais do som:", speech: "Para BONECA, escolha as vogais.", img: "/manus-storage/doll_e3cb17ec.jpg", options: ["O - E - A", "U - I - A", "E - O - U"], correct: 0 },
+      { instruction: "Para MA-CA-CO, escolha as vogais do som:", speech: "Para MACACO, escolha as vogais.", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80", options: ["A - A - O", "I - U - O", "E - A - I"], correct: 0 },
+      { instruction: "Para PEI-XE, escolha as vogais do som:", speech: "Para PEIXE, escolha as vogais.", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80", options: ["E - E", "A - O", "U - I"], correct: 0 }
     ]
   },
   7: {
     title: "Nível 7: Quase sei escrever tudo!",
     type: "choice",
     items: [
-      { instruction: "Complete a palavra CA-VA-LO: CA - _ A - LO", speech: "Complete a palavra CAVALO.", img: "/word-images/cavalo.svg", options: ["V", "B", "M"], correct: 0 },
-      { instruction: "Complete a palavra BO-NE-CA: BO - _ E - CA", speech: "Complete a palavra BONECA.", img: "/word-images/boneca.svg", options: ["N", "P", "T"], correct: 0 },
-      { instruction: "Complete a palavra GA-TO: G _ - TO", speech: "Complete a palavra GATO.", img: "/word-images/gato.svg", options: ["A", "E", "U"], correct: 0 },
-      { instruction: "Complete a palavra PI-PO-CA: PI - PO - C _", speech: "Complete a palavra PIPOCA.", img: "/word-images/pipoca.svg", options: ["A", "I", "O"], correct: 0 },
-      { instruction: "Complete a palavra MA-CA-CO: MA - CA - _ O", speech: "Complete a palavra MACACO.", img: "/word-images/macaco.svg", options: ["C", "B", "L"], correct: 0 },
-      { instruction: "Complete a palavra SA-PA-TO: SA - _ A - TO", speech: "Complete a palavra SAPATO.", img: "/word-images/sapato.svg", options: ["P", "V", "D"], correct: 0 },
-      { instruction: "Complete a palavra BO-LA: BO - _ A", speech: "Complete a palavra BOLA.", img: "/word-images/bola.svg", options: ["L", "M", "R"], correct: 0 },
-      { instruction: "Complete a palavra CA-SA: CA - S _", speech: "Complete a palavra CASA.", img: "/word-images/casa.svg", options: ["A", "O", "E"], correct: 0 },
-      { instruction: "Complete a palavra BA-NA-NA: BA - NA - N _", speech: "Complete a palavra BANANA.", img: "/word-images/banana.svg", options: ["A", "I", "U"], correct: 0 },
-      { instruction: "Complete a palavra PEI-XE: PEI - X _", speech: "Complete a palavra PEIXE.", img: "/word-images/peixe.svg", options: ["E", "A", "O"], correct: 0 }
+      { instruction: "Complete a palavra CA-VA-LO: CA - _ A - LO", speech: "Complete a palavra CAVALO.", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80", options: ["V", "B", "M"], correct: 0 },
+      { instruction: "Complete a palavra BO-NE-CA: BO - _ E - CA", speech: "Complete a palavra BONECA.", img: "/manus-storage/doll_e3cb17ec.jpg", options: ["N", "P", "T"], correct: 0 },
+      { instruction: "Complete a palavra GA-TO: G _ - TO", speech: "Complete a palavra GATO.", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", options: ["A", "E", "U"], correct: 0 },
+      { instruction: "Complete a palavra PI-PO-CA: PI - PO - C _", speech: "Complete a palavra PIPOCA.", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=400&q=80", options: ["A", "I", "O"], correct: 0 },
+      { instruction: "Complete a palavra MA-CA-CO: MA - CA - _ O", speech: "Complete a palavra MACACO.", img: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=400&q=80", options: ["C", "B", "L"], correct: 0 },
+      { instruction: "Complete a palavra SA-PA-TO: SA - _ A - TO", speech: "Complete a palavra SAPATO.", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80", options: ["P", "V", "D"], correct: 0 },
+      { instruction: "Complete a palavra BO-LA: BO - _ A", speech: "Complete a palavra BOLA.", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80", options: ["L", "M", "R"], correct: 0 },
+      { instruction: "Complete a palavra CA-SA: CA - S _", speech: "Complete a palavra CASA.", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=400&q=80", options: ["A", "O", "E"], correct: 0 },
+      { instruction: "Complete a palavra BA-NA-NA: BA - NA - N _", speech: "Complete a palavra BANANA.", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80", options: ["A", "I", "U"], correct: 0 },
+      { instruction: "Complete a palavra PEI-XE: PEI - X _", speech: "Complete a palavra PEIXE.", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80", options: ["E", "A", "O"], correct: 0 }
     ]
   },
   8: {
     title: "Nível 8: Sei escrever palavras!",
     type: "input",
     items: [
-      { instruction: "Escreva o nome deste animal:", speech: "Escreva GATO.", img: "/word-images/gato.svg", correctAnswer: "GATO" },
-      { instruction: "Escreva o nome deste objeto:", speech: "Escreva BOLA.", img: "/word-images/bola.svg", correctAnswer: "BOLA" },
-      { instruction: "Escreva o nome desta fruta:", speech: "Escreva MACA.", img: "/word-images/maca.svg", correctAnswer: "MACA" },
-      { instruction: "Escreva o nome deste animal:", speech: "Escreva CAVALO.", img: "/word-images/cavalo.svg", correctAnswer: "CAVALO" },
-      { instruction: "Escreva o nome desta fruta:", speech: "Escreva BANANA.", img: "/word-images/banana.svg", correctAnswer: "BANANA" },
-      { instruction: "Escreva o nome deste calçado:", speech: "Escreva SAPATO.", img: "/word-images/sapato.svg", correctAnswer: "SAPATO" },
-      { instruction: "Escreva o nome deste animal de estimação:", speech: "Escreva PEIXE.", img: "/word-images/peixe.svg", correctAnswer: "PEIXE" },
-      { instruction: "Escreva o nome deste lugar:", speech: "Escreva CASA.", img: "/word-images/casa.svg", correctAnswer: "CASA" },
-      { instruction: "Escreva o nome deste brinquedo:", speech: "Escreva BONECA.", img: "/word-images/boneca.svg", correctAnswer: "BONECA" },
-      { instruction: "Escreva o nome deste alimento gostoso:", speech: "Escreva PIPOCA.", img: "/word-images/pipoca.svg", correctAnswer: "PIPOCA" }
+      { instruction: "Escreva o nome deste animal:", speech: "Escreva GATO.", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80", correctAnswer: "GATO" },
+      { instruction: "Escreva o nome deste objeto:", speech: "Escreva BOLA.", img: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?auto=format&fit=crop&w=400&q=80", correctAnswer: "BOLA" },
+      { instruction: "Escreva o nome desta fruta:", speech: "Escreva MACA.", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80", correctAnswer: "MACA" },
+      { instruction: "Escreva o nome deste animal:", speech: "Escreva CAVALO.", img: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=400&q=80", correctAnswer: "CAVALO" },
+      { instruction: "Escreva o nome desta fruta:", speech: "Escreva BANANA.", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80", correctAnswer: "BANANA" },
+      { instruction: "Escreva o nome deste calçado:", speech: "Escreva SAPATO.", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80", correctAnswer: "SAPATO" },
+      { instruction: "Escreva o nome deste animal de estimação:", speech: "Escreva PEIXE.", img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=400&q=80", correctAnswer: "PEIXE" },
+      { instruction: "Escreva o nome deste lugar:", speech: "Escreva CASA.", img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=400&q=80", correctAnswer: "CASA" },
+      { instruction: "Escreva o nome deste brinquedo:", speech: "Escreva BONECA.", img: "/manus-storage/doll_e3cb17ec.jpg", correctAnswer: "BONECA" },
+      { instruction: "Escreva o nome deste alimento gostoso:", speech: "Escreva PIPOCA.", img: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=400&q=80", correctAnswer: "PIPOCA" }
     ]
   }
 };
@@ -231,7 +231,6 @@ export default function Home() {
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; title: string; subtitle: string } | null>(null);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isOptionDisabled, setIsOptionDisabled] = useState(false);
-  const [isAnswerLocked, setIsAnswerLocked] = useState(false);
   const [inputVal, setInputVal] = useState("");
   const [imageError, setImageError] = useState(false);
 
@@ -259,14 +258,6 @@ export default function Home() {
   // Canvas ref e desenho
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const isDrawingRef = useRef(false);
-  const completionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (completionTimerRef.current) clearTimeout(completionTimerRef.current);
-      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-    };
-  }, []);
 
   // Áudio com SpeechSynthesis
   const speak = (text: string) => {
@@ -404,7 +395,6 @@ export default function Home() {
     setFeedback(null);
     setSelectedOption(null);
     setIsOptionDisabled(false);
-    setIsAnswerLocked(false);
     setInputVal("");
     setScreen("game");
   };
@@ -423,18 +413,15 @@ export default function Home() {
     setFeedback(null);
     setSelectedOption(null);
     setIsOptionDisabled(false);
-    setIsAnswerLocked(false);
     setInputVal("");
 
     if (nextIdx >= totalItems) {
-      acumularTempoNivel();
       if (currentLevelIdx < 8) {
         setCurrentLevelIdx((prev) => prev + 1);
         setCurrentExerciseIndex(0);
         setLevelStartTime(Date.now());
       } else {
-        if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-        setScreen("menu");
+        exitLevelToMenu();
         return;
       }
     } else {
@@ -450,10 +437,7 @@ export default function Home() {
       attempts: currentRecord.attempts + 1,
       hits: currentRecord.hits + (isCorrect ? 1 : 0),
       errors: currentRecord.errors + (isCorrect ? 0 : 1),
-      levelsDone:
-        isCorrect && currentExerciseIndex === exercisesDatabase[currentLevelIdx].items.length - 1
-          ? { ...currentRecord.levelsDone, [currentLevelIdx]: true }
-          : currentRecord.levelsDone,
+      levelsDone: isCorrect ? { ...currentRecord.levelsDone, [currentLevelIdx]: true } : currentRecord.levelsDone,
       levelHits: isCorrect
         ? { ...currentRecord.levelHits, [currentLevelIdx]: (currentRecord.levelHits[currentLevelIdx] || 0) + 1 }
         : currentRecord.levelHits,
@@ -466,8 +450,6 @@ export default function Home() {
 
   // Exibir sucesso
   const triggerSuccess = () => {
-    if (isAnswerLocked) return;
-    setIsAnswerLocked(true);
     registerScore(true);
     const randomMsg = successMessages[Math.floor(Math.random() * successMessages.length)];
     setFeedback({ type: "success", title: randomMsg.title, subtitle: randomMsg.subtitle });
@@ -477,16 +459,13 @@ export default function Home() {
       window.confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
     }
 
-    if (completionTimerRef.current) clearTimeout(completionTimerRef.current);
-    completionTimerRef.current = setTimeout(() => {
+    setTimeout(() => {
       nextLevelOrExercise();
-      completionTimerRef.current = null;
     }, 1500);
   };
 
   // Exibir erro
   const triggerError = () => {
-    if (isAnswerLocked) return;
     registerScore(false);
     const randomMsg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
     setFeedback({ type: "error", title: randomMsg.title, subtitle: randomMsg.subtitle });
@@ -509,8 +488,6 @@ export default function Home() {
     const currentEx = exercisesDatabase[currentLevelIdx].items[currentExerciseIndex];
     const val = inputVal.trim().toUpperCase();
     const correct = currentEx.correctAnswer?.toUpperCase();
-
-    if (!val || !correct) return;
 
     if (val === correct) {
       triggerSuccess();
@@ -923,7 +900,6 @@ export default function Home() {
                       Limpar 🧹
                     </button>
                     <button
-                      disabled={isAnswerLocked}
                       onClick={triggerSuccess}
                       className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-2.5 rounded-full shadow-md shadow-purple-300 transition active:scale-95"
                     >
@@ -970,7 +946,6 @@ export default function Home() {
                     <input
                       type="text"
                       value={inputVal}
-                      disabled={isAnswerLocked}
                       onChange={(e) => setInputVal(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") handleInputCheck();
@@ -980,7 +955,6 @@ export default function Home() {
                     />
                   </div>
                   <button
-                    disabled={isAnswerLocked}
                     onClick={handleInputCheck}
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white font-['Fredoka'] text-2xl py-3.5 px-8 rounded-2xl shadow-md shadow-purple-300 transition active:scale-95"
                   >
