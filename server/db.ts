@@ -4,6 +4,7 @@ import {
   InsertStudentProgress,
   InsertUser,
   StudentProgress,
+  students,
   studentProgress,
   users,
 } from "../drizzle/schema";
@@ -91,6 +92,15 @@ export async function listStudentProgress(): Promise<StudentProgress[]> {
   }
 
   return db.select().from(studentProgress).orderBy(asc(studentProgress.studentName));
+}
+
+export async function listStudents() {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
+  }
+
+  return db.select().from(students).orderBy(asc(students.name));
 }
 
 export async function getStudentProgress(studentName: string): Promise<StudentProgress | undefined> {

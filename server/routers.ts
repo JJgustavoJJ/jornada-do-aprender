@@ -3,7 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
-import { clearStudentProgress, getStudentProgress, listStudentProgress, upsertStudentProgress } from "./db";
+import { clearStudentProgress, getStudentProgress, listStudentProgress, listStudents, upsertStudentProgress } from "./db";
 
 const studentProgressInput = z.object({
   studentName: z.string().trim().min(1).max(120),
@@ -65,17 +65,51 @@ export const appRouter = router({
     // exigir que cada computador faça login OAuth. A proteção administrativa
     // continua aplicada à limpeza dos dados.
     sharedList: publicProcedure.query(async () => {
-      const rows = await listStudentProgress();
-      return rows.map((row) => ({
-        studentName: row.studentName,
-        hits: row.hits,
-        errors: row.errors,
-        attempts: row.attempts,
-        levelsDone: row.levelsDone ?? {},
-        levelHits: row.levelHits ?? {},
-        levelErrors: row.levelErrors ?? {},
-        timePerLevel: row.timePerLevel ?? {},
-      }));
+      const [students, progressRows] = await Promise.all([listStudents(), listStudentProgress()]);
+      const progressByName = new Map(progressRows.map((row) => [row.studentName, row]));
+      const emptyProgress = {
+        hits: 0,
+        errors: 0,
+        attempts: 0,
+        levelsDone: {},
+        levelHits: {},
+        levelErrors: {},
+        timePerLevel: {},
+      };
+
+      const rosterRows = students.map((student) => {
+        const row = progressByName.get(student.name);
+        return {
+          studentName: student.name,
+          ...(row
+            ? {
+                hits: row.hits,
+                errors: row.errors,
+                attempts: row.attempts,
+                levelsDone: row.levelsDone ?? {},
+                levelHits: row.levelHits ?? {},
+                levelErrors: row.levelErrors ?? {},
+                timePerLevel: row.timePerLevel ?? {},
+              }
+            : emptyProgress),
+        };
+      });
+
+      const rosterNames = new Set(students.map((student) => student.name));
+      const extraProgressRows = progressRows
+        .filter((row) => !rosterNames.has(row.studentName))
+        .map((row) => ({
+          studentName: row.studentName,
+          hits: row.hits,
+          errors: row.errors,
+          attempts: row.attempts,
+          levelsDone: row.levelsDone ?? {},
+          levelHits: row.levelHits ?? {},
+          levelErrors: row.levelErrors ?? {},
+          timePerLevel: row.timePerLevel ?? {},
+        }));
+
+      return [...rosterRows, ...extraProgressRows];
     }),
     clear: adminProcedure.mutation(async () => {
       await clearStudentProgress();
