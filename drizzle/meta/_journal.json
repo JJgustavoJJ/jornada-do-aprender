@@ -8,6 +8,13 @@
       "when": 1789064271451,
       "tag": "0000_smooth_dreadnoughts",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1793099097588,
+      "tag": "0001_strong_maginty",
+      "breakpoints": true
     }
   ]
 }

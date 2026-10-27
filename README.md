@@ -118,10 +118,11 @@ O arquivo `.env` está no `.gitignore` e não deve ser enviado ao GitHub.
 
 ```bash
 pnpm db:push
+pnpm db:seed:students
 pnpm diagnose
 ```
 
-O comando `db:push` gera e aplica as migrações do Drizzle. O diagnóstico testa a conexão com o MySQL e verifica a porta configurada.
+O comando `db:push` gera e aplica as migrações do Drizzle. O comando `db:seed:students` cadastra os 34 alunos do arquivo fornecido, sem criar progresso falso. Ele pode ser executado novamente sem duplicar os alunos. O diagnóstico testa a conexão com o MySQL e verifica a porta configurada.
 
 O resultado deve conter:
 
@@ -212,6 +213,28 @@ Veja também o [guia detalhado de configuração de rede e MySQL](docs/configura
 6. Use **Exportar CSV ↓** para baixar os resultados.
 
 A senha do painel está definida no código atual. Em um ambiente real, altere essa senha antes de disponibilizar a aplicação.
+
+## Cadastro dos alunos
+
+O cadastro foi separado da tabela de progresso. A tabela `students` contém o número, o nome e o sexo dos 34 alunos do PDF. A tabela `student_progress` continua guardando somente o desempenho dos alunos que já utilizaram o jogo.
+
+Para atualizar o banco depois de baixar a nova versão:
+
+```powershell
+cd C:\Users\Aluno\jornada-do-aprender
+git pull origin main
+npm install
+pnpm db:push
+pnpm db:seed:students
+```
+
+O comando termina com uma mensagem semelhante a:
+
+```text
+Cadastro atualizado: 34 alunos.
+```
+
+O cadastro pode ser carregado antes de iniciar o aplicativo com `npm start`. A execução do seed precisa ocorrer no computador servidor, onde está o MySQL e o arquivo `.env`.
 
 ## Solução de problemas
 

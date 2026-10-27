@@ -19,6 +19,22 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 /**
+ * Student roster imported from the school list. Progress is stored separately
+ * in student_progress so importing the roster does not create fake activity.
+ */
+export const students = mysqlTable("students", {
+  id: int("id").autoincrement().primaryKey(),
+  studentNumber: int("studentNumber").notNull().unique(),
+  name: varchar("name", { length: 160 }).notNull().unique(),
+  sex: mysqlEnum("sex", ["F", "M"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Student = typeof students.$inferSelect;
+export type InsertStudent = typeof students.$inferInsert;
+
+/**
  * One shared progress snapshot per student. JSON columns keep the per-level
  * breakdown flexible while the aggregate counters remain query-friendly.
  */
