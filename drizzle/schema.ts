@@ -35,6 +35,25 @@ export type Student = typeof students.$inferSelect;
 export type InsertStudent = typeof students.$inferInsert;
 
 /**
+ * Individual answer attempts, including retries, for teacher review.
+ */
+export const studentAnswers = mysqlTable("student_answers", {
+  id: int("id").autoincrement().primaryKey(),
+  studentName: varchar("studentName", { length: 120 }).notNull(),
+  level: int("level").notNull(),
+  exercise: int("exercise").notNull(),
+  activityType: varchar("activityType", { length: 20 }).notNull(),
+  question: text("question").notNull(),
+  answer: text("answer").notNull(),
+  expectedAnswer: text("expectedAnswer"),
+  isCorrect: int("isCorrect").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type StudentAnswer = typeof studentAnswers.$inferSelect;
+export type InsertStudentAnswer = typeof studentAnswers.$inferInsert;
+
+/**
  * One shared progress snapshot per student. JSON columns keep the per-level
  * breakdown flexible while the aggregate counters remain query-friendly.
  */

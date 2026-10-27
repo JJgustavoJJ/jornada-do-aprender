@@ -79,6 +79,7 @@ Esse comando cria ou atualiza as tabelas definidas no schema Drizzle, incluindo:
 - `users`
 - `students`
 - `student_progress`
+- `student_answers`
 
 ## 5. Cadastrar os 34 alunos
 
@@ -211,7 +212,9 @@ Não use `localhost` nos computadores dos alunos. Nesse caso, `localhost` aponta
 5. Clique em **Atualizar dados**.
 6. Confira os 34 alunos cadastrados.
 
-Alunos que ainda não fizeram atividades aparecem com zero acertos, zero tentativas e sem tempo registrado. Quando o aluno jogar, o progresso será atualizado na tabela `student_progress`.
+Alunos que ainda não fizeram atividades aparecem com zero acertos, zero tentativas e sem tempo registrado. Quando o aluno jogar, o progresso será atualizado na tabela `student_progress` e cada tentativa será salva na tabela `student_answers`.
+
+A tabela `student_answers` mantém respostas certas, erradas e novas tentativas separadamente, com aluno, nível, exercício, tipo de atividade, resposta enviada, resposta esperada e data.
 
 ## 12. Consultas úteis no MySQL
 
@@ -237,6 +240,32 @@ Ver os progressos registrados:
 SELECT studentName, hits, errors, attempts, updatedAt
 FROM student_progress
 ORDER BY studentName;
+```
+
+Ver as respostas individuais:
+
+```sql
+SELECT
+  studentName,
+  level,
+  exercise,
+  activityType,
+  question,
+  answer,
+  expectedAnswer,
+  IF(isCorrect = 1, 'Acertou', 'Errou') AS resultado,
+  createdAt
+FROM student_answers
+ORDER BY createdAt DESC;
+```
+
+Ver as respostas de um aluno específico:
+
+```sql
+SELECT *
+FROM student_answers
+WHERE studentName = 'Nome do aluno'
+ORDER BY createdAt;
 ```
 
 Ver alunos ainda sem progresso:

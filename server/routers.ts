@@ -3,7 +3,14 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
-import { clearStudentProgress, getStudentProgress, listStudentProgress, listStudents, upsertStudentProgress } from "./db";
+import {
+  clearStudentProgress,
+  getStudentProgress,
+  insertStudentAnswer,
+  listStudentProgress,
+  listStudents,
+  upsertStudentProgress,
+} from "./db";
 
 const studentProgressInput = z.object({
   studentName: z.string().trim().min(1).max(120),
@@ -14,6 +21,17 @@ const studentProgressInput = z.object({
   levelHits: z.record(z.string(), z.number().int().nonnegative()),
   levelErrors: z.record(z.string(), z.number().int().nonnegative()),
   timePerLevel: z.record(z.string(), z.number().int().nonnegative()),
+});
+
+const studentAnswerInput = z.object({
+  studentName: z.string().trim().min(1).max(120),
+  level: z.number().int().min(1).max(8),
+  exercise: z.number().int().min(1).max(10),
+  activityType: z.enum(["draw", "choice", "input"]),
+  question: z.string().min(1).max(1000),
+  answer: z.string().max(1000),
+  expectedAnswer: z.string().max(1000).nullable(),
+  isCorrect: z.boolean(),
 });
 
 export const appRouter = router({
@@ -113,6 +131,15 @@ export const appRouter = router({
     }),
     clear: adminProcedure.mutation(async () => {
       await clearStudentProgress();
+      return { success: true } as const;
+    }),
+  }),
+  studentAnswers: router({
+    save: publicProcedure.input(studentAnswerInput).mutation(async ({ input }) => {
+      await insertStudentAnswer({
+        ...input,
+        isCorrect: input.isCorrect ? 1 : 0,
+      });
       return { success: true } as const;
     }),
   }),

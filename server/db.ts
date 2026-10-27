@@ -2,8 +2,10 @@ import { asc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   InsertStudentProgress,
+  InsertStudentAnswer,
   InsertUser,
   StudentProgress,
+  studentAnswers,
   students,
   studentProgress,
   users,
@@ -101,6 +103,15 @@ export async function listStudents() {
   }
 
   return db.select().from(students).orderBy(asc(students.name));
+}
+
+export async function insertStudentAnswer(answer: InsertStudentAnswer): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("DATABASE_URL não configurada ou MySQL indisponível");
+  }
+
+  await db.insert(studentAnswers).values(answer);
 }
 
 export async function getStudentProgress(studentName: string): Promise<StudentProgress | undefined> {

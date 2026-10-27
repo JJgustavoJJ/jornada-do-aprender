@@ -15,6 +15,13 @@
       "when": 1793099097588,
       "tag": "0001_strong_maginty",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1793109075380,
+      "tag": "0002_black_medusa",
+      "breakpoints": true
     }
   ]
 }

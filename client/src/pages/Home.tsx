@@ -207,6 +207,11 @@ export default function Home() {
       setSyncError(`Não foi possível salvar no banco compartilhado: ${error.message}`);
     },
   });
+  const saveAnswerMutation = trpc.studentAnswers.save.useMutation({
+    onError: (error) => {
+      setSyncError(`Não foi possível salvar a resposta: ${error.message}`);
+    },
+  });
   const teacherProgressQuery = trpc.studentProgress.sharedList.useQuery(undefined, {
     enabled: true,
     retry: 1,
@@ -430,8 +435,12 @@ export default function Home() {
   };
 
   // Registrar pontuação e enviar o snapshot atualizado para o MySQL.
-  const registerScore = (isCorrect: boolean) => {
+  const registerScore = (isCorrect: boolean, submittedAnswer: string) => {
     const currentRecord = localRecords[currentStudent] ?? createEmptyTeacherRecord();
+    const currentEx = exercisesDatabase[currentLevelIdx].items[currentExerciseIndex];
+    const expectedAnswer = currentEx.options && currentEx.correct !== undefined
+      ? currentEx.options[currentEx.correct]
+      : currentEx.correctAnswer ?? currentEx.guide ?? null;
     const updatedRecord: TeacherRecord = {
       ...currentRecord,
       attempts: currentRecord.attempts + 1,
@@ -446,11 +455,21 @@ export default function Home() {
         : currentRecord.levelErrors,
     };
     persistRecord(currentStudent, updatedRecord);
+    saveAnswerMutation.mutate({
+      studentName: currentStudent,
+      level: currentLevelIdx,
+      exercise: currentExerciseIndex + 1,
+      activityType: exercisesDatabase[currentLevelIdx].type,
+      question: currentEx.instruction,
+      answer: submittedAnswer,
+      expectedAnswer,
+      isCorrect,
+    });
   };
 
   // Exibir sucesso
-  const triggerSuccess = () => {
-    registerScore(true);
+  const triggerSuccess = (submittedAnswer = "Desenho concluído") => {
+    registerScore(true, submittedAnswer);
     const randomMsg = successMessages[Math.floor(Math.random() * successMessages.length)];
     setFeedback({ type: "success", title: randomMsg.title, subtitle: randomMsg.subtitle });
     speak(`${randomMsg.title} ${randomMsg.subtitle}`);
@@ -465,8 +484,8 @@ export default function Home() {
   };
 
   // Exibir erro
-  const triggerError = () => {
-    registerScore(false);
+  const triggerError = (submittedAnswer: string) => {
+    registerScore(false, submittedAnswer);
     const randomMsg = errorMessages[Math.floor(Math.random() * errorMessages.length)];
     setFeedback({ type: "error", title: randomMsg.title, subtitle: randomMsg.subtitle });
     speak(`${randomMsg.title} ${randomMsg.subtitle}`);
@@ -477,9 +496,9 @@ export default function Home() {
     setSelectedOption(idx);
     if (idx === correctIdx) {
       setIsOptionDisabled(true);
-      triggerSuccess();
+      triggerSuccess(currentExercise?.options?.[idx] ?? `Opção ${idx + 1}`);
     } else {
-      triggerError();
+      triggerError(currentExercise?.options?.[idx] ?? `Opção ${idx + 1}`);
     }
   };
 
@@ -490,9 +509,9 @@ export default function Home() {
     const correct = currentEx.correctAnswer?.toUpperCase();
 
     if (val === correct) {
-      triggerSuccess();
+      triggerSuccess(val);
     } else {
-      triggerError();
+      triggerError(val);
       setInputVal("");
     }
   };
@@ -900,7 +919,7 @@ export default function Home() {
                       Limpar 🧹
                     </button>
                     <button
-                      onClick={triggerSuccess}
+                      onClick={() => triggerSuccess()}
                       className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-2.5 rounded-full shadow-md shadow-purple-300 transition active:scale-95"
                     >
                       Concluir Desenho ✨
