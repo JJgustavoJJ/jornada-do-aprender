@@ -203,6 +203,8 @@ Não use `localhost` nos computadores dos alunos. `localhost` sempre aponta para
 
 Veja também o [guia detalhado de configuração de rede e MySQL](docs/configuracao-rede-mysql.md).
 
+Para consultar todos os comandos de atualização, banco de dados, cadastro dos alunos e execução offline, acesse a [página de comandos e banco de dados](docs/comandos-e-banco-de-dados.md).
+
 ## Verificar o salvamento dos resultados
 
 1. Abra o jogo pelo endereço do servidor.
