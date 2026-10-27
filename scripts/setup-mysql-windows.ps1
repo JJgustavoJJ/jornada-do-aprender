@@ -33,8 +33,11 @@ $dbPasswordSql = SqlQuote $appPlain
 $sql = @"
 CREATE DATABASE IF NOT EXISTS jornada_aprender CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS 'jornada_user'@'localhost' IDENTIFIED BY '$dbPasswordSql';
+CREATE USER IF NOT EXISTS 'jornada_user'@'127.0.0.1' IDENTIFIED BY '$dbPasswordSql';
 ALTER USER 'jornada_user'@'localhost' IDENTIFIED BY '$dbPasswordSql';
+ALTER USER 'jornada_user'@'127.0.0.1' IDENTIFIED BY '$dbPasswordSql';
 GRANT ALL PRIVILEGES ON jornada_aprender.* TO 'jornada_user'@'localhost';
+GRANT ALL PRIVILEGES ON jornada_aprender.* TO 'jornada_user'@'127.0.0.1';
 FLUSH PRIVILEGES;
 "@
 

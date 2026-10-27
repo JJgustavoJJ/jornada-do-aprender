@@ -1,299 +1,129 @@
-# 🚀 A Jornada do Aprender
+# A Jornada do Aprender
 
-> Um jogo educativo infantil que transforma o aprendizado em uma experiência divertida, interativa e adaptável.
+Jogo educativo infantil para atividades de leitura, escrita e raciocínio lógico. A aplicação possui uma interface web, uma API em tRPC e um banco MySQL para salvar o progresso dos alunos e exibir os resultados no painel do professor.
 
-## 📚 Sobre o projeto
+## Tecnologias
 
-**A Jornada do Aprender** é um jogo educativo desenvolvido para auxiliar crianças em diferentes níveis de aprendizagem. Por meio de atividades interativas, o projeto estimula o desenvolvimento de habilidades de escrita, leitura e raciocínio lógico.
+- React + TypeScript
+- Vite
+- Express + tRPC
+- MySQL + Drizzle ORM
+- Tailwind CSS
+- Vitest
 
-A proposta é respeitar o ritmo de cada criança, oferecendo uma experiência educativa envolvente e acompanhando sua evolução.
+## Pré-requisitos
 
-## 🏗️ Arquitetura e tecnologias
+No computador que funcionará como servidor, instale:
 
-O projeto utiliza uma arquitetura organizada em frontend, backend e banco de dados.
-
-| Tecnologia | Utilização |
-| --- | --- |
-| React + TypeScript | Criação da interface e da lógica do jogo. |
-| Vite | Desenvolvimento e construção da aplicação. |
-| Tailwind CSS | Estilização da interface. |
-| tRPC | Comunicação entre frontend e backend. |
-| MySQL | Armazenamento dos dados dos alunos e de seus progressos. |
-| Drizzle ORM | Integração entre o código e o banco de dados. |
-| Vitest | Execução dos testes automatizados. |
-
-## 🎮 Regras de negócio
-
-O jogo possui oito níveis pedagógicos com atividades de desenho, questões de múltipla escolha e respostas digitadas.
-
-- **Pontuação:** baseada nos acertos, erros e tentativas do jogador.
-- **Progressão:** o jogador avança pelos exercícios e níveis da jornada.
-- **Feedback:** o jogo apresenta mensagens visuais e sonoras para acertos e novas tentativas.
-- **Progresso:** os dados de desempenho podem ser armazenados no MySQL para consulta compartilhada.
-- **Painel do professor:** permite consultar informações sobre o desempenho e as dificuldades dos alunos.
-
-## 📁 Estrutura do projeto
-
-```text
-jornada-do-aprender/
-├── client/
-├── server/
-├── drizzle/
-├── scripts/
-├── docs/
-├── README.md
-├── package.json
-└── drizzle.config.ts
-```
-
-## ⚙️ Requisitos
-
-Antes de iniciar, instale no computador que executará o servidor:
-
-- [Node.js](https://nodejs.org/)
-- [pnpm](https://pnpm.io/)
+- [Node.js LTS](https://nodejs.org/)
 - [Git](https://git-scm.com/)
-- MySQL
+- [MySQL Server](https://dev.mysql.com/downloads/mysql/)
+- [pnpm](https://pnpm.io/installation/)
 
-Os computadores dos alunos não precisam ter MySQL instalado. Apenas o computador servidor precisa instalar e executar o MySQL.
+Os computadores dos alunos e do professor não precisam instalar Node.js, pnpm ou MySQL. Eles apenas acessam o endereço do computador servidor pelo navegador.
 
-## 🔧 Conexão com o MySQL passo a passo
+> Os comandos abaixo funcionam no PowerShell, no Prompt de Comando e em terminais Linux/macOS. No Windows, quando necessário, use `pnpm.cmd` no lugar de `pnpm`.
 
-### 1. Verifique se o MySQL está instalado
+## Instalação rápida
 
-Pressione:
+### 1. Baixe o projeto
 
-```text
-Win + R
+```bash
+git clone https://github.com/JJgustavoJJ/jornada-do-aprender.git
+cd jornada-do-aprender
 ```
 
-Digite:
+### 2. Instale o pnpm e as dependências
 
-```text
-services.msc
+Se o comando `pnpm` já existir, instale as dependências:
+
+```bash
+pnpm install
 ```
 
-Procure um serviço chamado:
+Se `pnpm` não for reconhecido, habilite o gerenciador incluído no Node.js:
 
-```text
-MySQL80
+```bash
+corepack enable
+corepack prepare pnpm@10.4.1 --activate
+pnpm install
 ```
 
-ou um nome parecido.
-
-Se estiver parado:
-
-1. Clique com o botão direito em `MySQL80`.
-2. Clique em **Iniciar**.
-
-### 2. Abra o MySQL como administrador
-
-Abra o PowerShell ou o Prompt de Comando e execute:
+No Windows, a alternativa é:
 
 ```powershell
+npm install --global pnpm
+pnpm install
+```
+
+### 3. Configure o MySQL
+
+Inicie o serviço do MySQL. No Windows, pressione `Win + R`, execute `services.msc` e inicie o serviço `MySQL80` (ou o nome correspondente à versão instalada).
+
+Abra o cliente do MySQL como `root`:
+
+```bash
 mysql -u root -p
 ```
 
-Digite a senha que você criou para o usuário `root` durante a instalação do MySQL.
-
-Se aparecer:
-
-```text
-mysql>
-```
-
-a conexão com o MySQL funcionou.
-
-Se aparecer que `mysql` não é reconhecido, abra pelo menu Iniciar o programa:
-
-```text
-MySQL Command Line Client
-```
-
-### 3. Crie o banco do jogo
-
-Dentro do prompt `mysql>`, cole:
+Crie o banco e o usuário da aplicação. Substitua `SUA_SENHA` por uma senha sua:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS jornada_aprender
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
-```
 
-### 4. Crie o usuário do jogo
-
-Ainda dentro do MySQL, execute este bloco completo:
-
-```sql
 CREATE USER IF NOT EXISTS 'jornada_user'@'localhost'
-  IDENTIFIED BY 'JornadaAprender2026';
-
+  IDENTIFIED BY 'SUA_SENHA';
 CREATE USER IF NOT EXISTS 'jornada_user'@'127.0.0.1'
-  IDENTIFIED BY 'JornadaAprender2026';
+  IDENTIFIED BY 'SUA_SENHA';
 
-ALTER USER 'jornada_user'@'localhost'
-  IDENTIFIED BY 'JornadaAprender2026';
+ALTER USER 'jornada_user'@'localhost' IDENTIFIED BY 'SUA_SENHA';
+ALTER USER 'jornada_user'@'127.0.0.1' IDENTIFIED BY 'SUA_SENHA';
 
-ALTER USER 'jornada_user'@'127.0.0.1'
-  IDENTIFIED BY 'JornadaAprender2026';
-```
-
-A senha deste exemplo é:
-
-```text
-JornadaAprender2026
-```
-
-Você pode usar outra senha, mas precisa colocar exatamente a mesma senha no arquivo `.env`.
-
-### 5. Dê permissão ao usuário
-
-Execute:
-
-```sql
-GRANT ALL PRIVILEGES
-  ON jornada_aprender.*
-  TO 'jornada_user'@'localhost';
-
-GRANT ALL PRIVILEGES
-  ON jornada_aprender.*
-  TO 'jornada_user'@'127.0.0.1';
-
+GRANT ALL PRIVILEGES ON jornada_aprender.* TO 'jornada_user'@'localhost';
+GRANT ALL PRIVILEGES ON jornada_aprender.* TO 'jornada_user'@'127.0.0.1';
 FLUSH PRIVILEGES;
 ```
 
-Depois saia do MySQL:
+Saia do cliente:
 
 ```sql
 exit;
 ```
 
-### 6. Teste o usuário do jogo
+Teste a conexão com o usuário da aplicação:
 
-Agora teste o usuário criado:
-
-```powershell
+```bash
 mysql -h 127.0.0.1 -u jornada_user -p jornada_aprender
 ```
 
-Quando pedir a senha, digite:
+Se aparecer `mysql>`, a conexão está funcionando. Saia novamente com `exit;`.
 
-```text
-JornadaAprender2026
-```
+### 4. Crie o arquivo `.env`
 
-Se aparecer:
+Na raiz do projeto, no mesmo diretório de `package.json`, crie um arquivo chamado exatamente `.env`:
 
-```text
-mysql>
-```
-
-deu certo.
-
-Teste as tabelas com:
-
-```sql
-SHOW TABLES;
-```
-
-Se ainda não houver tabelas, isso é normal. Elas serão criadas pelo projeto.
-
-Saia:
-
-```sql
-exit;
-```
-
-### 7. Abra a pasta do projeto
-
-No PowerShell, entre na pasta:
-
-```powershell
-cd C:\Users\Aluno\jornada-do-aprender
-```
-
-Confira se você está na pasta correta:
-
-```powershell
-dir
-```
-
-Você deve encontrar arquivos como:
-
-```text
-package.json
-drizzle.config.ts
-client
-server
-drizzle
-```
-
-### 8. Crie o arquivo `.env`
-
-Na pasta:
-
-```text
-C:\Users\Aluno\jornada-do-aprender
-```
-
-crie um arquivo chamado exatamente:
-
-```text
-.env
-```
-
-O conteúdo deve ser:
-
-```env
-DATABASE_URL=mysql://jornada_user:JornadaAprender2026@127.0.0.1:3306/jornada_aprender
+```dotenv
+DATABASE_URL=mysql://jornada_user:SUA_SENHA@127.0.0.1:3306/jornada_aprender
 PORT=3000
 NODE_ENV=development
 ```
 
-Atenção:
+Troque `SUA_SENHA` pela senha usada no MySQL. Se a senha tiver caracteres como `@`, `#`, `:`, `/` ou `%`, faça URL encoding ou prefira uma senha sem esses caracteres para evitar erro na URL.
 
-- O nome deve ser `.env`, não `.env.txt`.
-- A senha deve ser exatamente a mesma criada no MySQL.
-- Não coloque espaços antes ou depois do `=`.
-- Não coloque aspas na URL.
+O arquivo `.env` está no `.gitignore` e não deve ser enviado ao GitHub.
 
-### 9. Instale as dependências
+### 5. Crie as tabelas e execute o diagnóstico
 
-Dentro da pasta do projeto:
-
-```powershell
-pnpm install
-```
-
-Se o comando `pnpm` não existir:
-
-```powershell
-npm install --global pnpm
-```
-
-Depois execute novamente:
-
-```powershell
-pnpm install
-```
-
-### 10. Crie as tabelas do projeto
-
-Execute:
-
-```powershell
+```bash
 pnpm db:push
-```
-
-Se tudo estiver correto, o Drizzle criará as tabelas do jogo.
-
-Depois verifique:
-
-```powershell
 pnpm diagnose
 ```
 
-O resultado esperado é:
+O comando `db:push` gera e aplica as migrações do Drizzle. O diagnóstico testa a conexão com o MySQL e verifica a porta configurada.
+
+O resultado deve conter:
 
 ```text
 DATABASE_URL: configurada
@@ -302,139 +132,149 @@ Porta 3000: disponível em 0.0.0.0
 Diagnóstico concluído sem problemas.
 ```
 
-### 11. Inicie o jogo
+### 6. Inicie a aplicação
 
-Execute:
-
-```powershell
+```bash
 pnpm dev
 ```
 
-Você deverá ver:
-
-```text
-Server running on http://localhost:3000/
-```
-
-Abra no navegador:
+Quando o servidor iniciar, abra no computador servidor:
 
 ```text
 http://localhost:3000
 ```
 
-### 12. Verifique se os dados estão sendo salvos
+O terminal também exibirá o endereço que deve ser usado pelos outros computadores da rede.
 
-1. Abra o jogo.
-2. Digite o nome de um aluno.
-3. Resolva uma atividade.
-4. Abra o **Painel do Professor**.
-5. Digite a senha do painel:
+Para encerrar o servidor, pressione `Ctrl + C` no terminal em que `pnpm dev` está rodando.
+
+## Configuração automática no Windows
+
+Depois de instalar o projeto e o MySQL, o script abaixo cria o banco, cria o usuário, grava o `.env`, aplica as tabelas e executa o diagnóstico:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\setup-mysql-windows.ps1
+```
+
+O script solicitará a senha do `root` e uma senha para `jornada_user`. Depois da conclusão, inicie o jogo com:
+
+```powershell
+pnpm.cmd dev
+```
+
+Para as próximas inicializações, também é possível executar:
+
+```powershell
+.\scripts\iniciar-servidor-windows.bat
+```
+
+Esse arquivo executa o diagnóstico antes de iniciar o servidor.
+
+## Usar em vários computadores na mesma rede
+
+Apenas o computador servidor deve executar `pnpm dev` e acessar o MySQL. Os demais computadores devem abrir o endereço do servidor no navegador.
+
+1. Garanta que todos os computadores estejam na mesma rede Wi-Fi ou Ethernet.
+2. No servidor Windows, execute `ipconfig`.
+3. Localize o IPv4 do adaptador Wi-Fi ou Ethernet. Normalmente ele começa com `192.168.` ou `10.`.
+4. Se o firewall bloquear o acesso, abra o PowerShell como administrador e execute:
+
+   ```powershell
+   netsh advfirewall firewall add rule name="Jornada do Aprender 3000" dir=in action=allow protocol=TCP localport=3000
+   ```
+
+5. Nos outros computadores, abra o endereço neste formato:
+
+   ```text
+   http://IP-DO-SERVIDOR:3000
+   ```
+
+   Por exemplo: `http://192.168.1.25:3000`.
+
+Não use `localhost` nos computadores dos alunos. `localhost` sempre aponta para o próprio computador em que o navegador está aberto.
+
+Veja também o [guia detalhado de configuração de rede e MySQL](docs/configuracao-rede-mysql.md).
+
+## Verificar o salvamento dos resultados
+
+1. Abra o jogo pelo endereço do servidor.
+2. Informe o nome de um aluno e responda uma atividade.
+3. Abra o **Painel do Professor** no mesmo endereço do servidor.
+4. Informe a senha atual do painel: `12345678`.
+5. Confira o registro do aluno e os resultados.
+6. Use **Exportar CSV ↓** para baixar os resultados.
+
+A senha do painel está definida no código atual. Em um ambiente real, altere essa senha antes de disponibilizar a aplicação.
+
+## Solução de problemas
+
+### `pnpm` não é reconhecido
+
+Instale ou habilite o pnpm e abra um novo terminal:
+
+```bash
+corepack enable
+corepack prepare pnpm@10.4.1 --activate
+```
+
+No Windows, também é possível usar `npm install --global pnpm`.
+
+### `DATABASE_URL is required` ou `DATABASE_URL: AUSENTE`
+
+Verifique se o arquivo se chama `.env`, está na raiz do projeto e contém `DATABASE_URL`. No Windows, confirme que ele não foi salvo como `.env.txt`.
+
+### `Access denied for user`
+
+A senha do `.env` não corresponde à senha de `jornada_user`. Entre no MySQL como `root`, execute novamente os comandos `ALTER USER` deste guia e atualize a URL do `.env`.
+
+### `ECONNREFUSED 127.0.0.1:3306`
+
+O MySQL não está em execução, está usando outra porta ou está bloqueando conexões TCP. Inicie o serviço, confirme a porta configurada e execute `pnpm diagnose` novamente.
+
+### A porta 3000 já está em uso
+
+Encerre o processo que está usando a porta ou altere `PORT` no `.env`. Se alterar a porta, use a nova porta também no firewall e no endereço acessado pelos outros computadores.
+
+### O painel mostra “Tentando conectar ao banco compartilhado”
+
+Confirme que o painel foi aberto pelo endereço do computador servidor, que o servidor está ativo e que `pnpm diagnose` informa `MySQL: conexão OK`. Os computadores dos alunos não devem iniciar uma segunda cópia do servidor.
+
+## Desenvolvimento e testes
+
+```bash
+pnpm check
+pnpm test
+pnpm build
+```
+
+Para formatar os arquivos:
+
+```bash
+pnpm format
+```
+
+## Estrutura principal
 
 ```text
-12345678
+jornada-do-aprender/
+├── client/       # Interface React
+├── server/       # API tRPC e servidor Express
+├── drizzle/      # Schema e migrações do MySQL
+├── scripts/      # Diagnóstico e automações para Windows
+├── docs/         # Guias complementares
+├── package.json
+└── README.md
 ```
 
-Se o MySQL estiver conectado, os dados do aluno aparecerão no painel.
+## Protótipo visual
 
-## ❗ Solução de problemas
+[Ver o protótipo no Figma](https://www.figma.com/make/GfBlaowJlofjQVycoYaSf3/Jogo-educativo-interativo?p=f&t=axdve6CL1dtQK3oV-0)
 
-### Se aparecer `Access denied`
+## Integrantes
 
-Esse erro significa que a senha do `.env` não é igual à senha do usuário MySQL.
+- Asaf H.
+- Gustavo G.
+- João A.
 
-Entre novamente como `root`:
-
-```powershell
-mysql -u root -p
-```
-
-Execute:
-
-```sql
-ALTER USER 'jornada_user'@'localhost'
-  IDENTIFIED BY 'JornadaAprender2026';
-
-ALTER USER 'jornada_user'@'127.0.0.1'
-  IDENTIFIED BY 'JornadaAprender2026';
-
-FLUSH PRIVILEGES;
-```
-
-Depois confirme que o `.env` tem exatamente:
-
-```env
-DATABASE_URL=mysql://jornada_user:JornadaAprender2026@127.0.0.1:3306/jornada_aprender
-```
-
-Teste novamente:
-
-```powershell
-mysql -h 127.0.0.1 -u jornada_user -p jornada_aprender
-```
-
-### Se aparecer `ECONNREFUSED 127.0.0.1:3306`
-
-Isso significa que o serviço do MySQL não está iniciado.
-
-1. Pressione `Win + R`.
-2. Digite `services.msc`.
-3. Procure `MySQL80`.
-4. Clique com o botão direito.
-5. Clique em **Iniciar**.
-6. Execute novamente:
-
-```powershell
-pnpm diagnose
-```
-
-## 🌐 Compartilhar resultados entre computadores
-
-Para que os erros e acertos apareçam no painel do professor, apenas um computador deve executar o servidor e conectar ao MySQL. Os demais computadores devem abrir o IP desse servidor.
-
-No computador servidor, descubra o endereço IPv4 com:
-
-```powershell
-ipconfig
-```
-
-O endereço normalmente começa com `192.168.` ou `10.`.
-
-No Windows, libere a porta 3000 abrindo o PowerShell como administrador e executando:
-
-```powershell
-netsh advfirewall firewall add rule name="Jornada do Aprender 3000" dir=in action=allow protocol=TCP localport=3000
-```
-
-Se o computador servidor tiver o IP `192.168.1.25`, os demais computadores devem acessar:
-
-```text
-http://192.168.1.25:3000
-```
-
-Não use `http://localhost:3000` nos computadores dos alunos, pois `localhost` sempre aponta para o próprio computador.
-
-Todos os computadores devem estar conectados à mesma rede Wi-Fi ou Ethernet.
-
-Consulte também o [guia de configuração da rede e do MySQL](docs/configuracao-rede-mysql.md).
-
-## 📤 Exportar os resultados
-
-No painel do professor, clique em **Exportar CSV** para baixar os registros atuais. O arquivo inclui aluno, acertos, erros, tentativas, níveis concluídos, tempo por nível e erros por nível.
-
-## 🎨 Protótipo no Figma
-
-Confira o protótipo visual e a proposta das telas do jogo:
-
-[Acessar o protótipo no Figma](https://www.figma.com/make/GfBlaowJlofjQVycoYaSf3/Jogo-educativo-interativo?p=f&t=axdve6CL1dtQK3oV-0)
-
-## 👥 Integrantes do projeto
-
-- **Asaf H.**
-- **Gustavo G.**
-- **João A.**
-
----
-
-<p align="center">
-  Projeto desenvolvido para fins educacionais.
-</p>
+Projeto desenvolvido para fins educacionais.
