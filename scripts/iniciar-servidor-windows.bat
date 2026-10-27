@@ -6,7 +6,7 @@ echo === A Jornada do Aprender ===
 echo Servidor: http://localhost:3000
 
 echo Para os outros computadores, use o IPv4 deste PC com a porta 3000.
-echo Nao feche esta janela enquanto o jogo estiver em uso.
+echo Modo offline: o servidor usa o build local e nao precisa de internet.
 echo.
 
 call pnpm.cmd run diagnose
@@ -17,5 +17,5 @@ if errorlevel 1 (
   exit /b 1
 )
 
-call pnpm.cmd run dev
+call npm start
 pause

@@ -22,7 +22,7 @@ No computador que funcionará como servidor, instale:
 
 Os computadores dos alunos e do professor não precisam instalar Node.js, pnpm ou MySQL. Eles apenas acessam o endereço do computador servidor pelo navegador.
 
-> Os comandos abaixo funcionam no PowerShell, no Prompt de Comando e em terminais Linux/macOS. No Windows, quando necessário, use `pnpm.cmd` no lugar de `pnpm`.
+> Os comandos de instalação e banco usam pnpm porque o projeto fixa essa versão no lockfile. Depois que o projeto estiver instalado e compilado, a execução offline deve ser feita com `npm start`.
 
 ## Instalação rápida
 
@@ -132,10 +132,13 @@ Porta 3000: disponível em 0.0.0.0
 Diagnóstico concluído sem problemas.
 ```
 
-### 6. Inicie a aplicação
+### 6. Gere o build e inicie a aplicação offline
+
+O build precisa ser gerado uma vez enquanto as dependências já estão instaladas. Depois disso, o servidor pode funcionar sem conexão com a internet:
 
 ```bash
-pnpm dev
+npm run build
+npm start
 ```
 
 Quando o servidor iniciar, abra no computador servidor:
@@ -146,24 +149,27 @@ http://localhost:3000
 
 O terminal também exibirá o endereço que deve ser usado pelos outros computadores da rede.
 
-Para encerrar o servidor, pressione `Ctrl + C` no terminal em que `pnpm dev` está rodando.
+Para encerrar o servidor, pressione `Ctrl + C` no terminal em que `npm start` está rodando.
+
+> `pnpm dev` é destinado somente ao desenvolvimento e ao hot reload. Não use esse comando no computador que ficará disponível para os alunos.
 
 ## Configuração automática no Windows
 
-Depois de instalar o projeto e o MySQL, o script abaixo cria o banco, cria o usuário, grava o `.env`, aplica as tabelas e executa o diagnóstico:
+Depois de instalar o projeto e o MySQL, o script abaixo cria o banco, cria o usuário, grava o `.env`, aplica as tabelas e executa o diagnóstico. Essa etapa é feita uma vez, durante a configuração inicial:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\setup-mysql-windows.ps1
 ```
 
-O script solicitará a senha do `root` e uma senha para `jornada_user`. Depois da conclusão, inicie o jogo com:
+O script solicitará a senha do `root` e uma senha para `jornada_user`. Depois da conclusão, gere o build e inicie o jogo em modo offline:
 
 ```powershell
-pnpm.cmd dev
+npm run build
+npm start
 ```
 
-Para as próximas inicializações, também é possível executar:
+Para as próximas inicializações offline, também é possível executar:
 
 ```powershell
 .\scripts\iniciar-servidor-windows.bat
@@ -173,7 +179,7 @@ Esse arquivo executa o diagnóstico antes de iniciar o servidor.
 
 ## Usar em vários computadores na mesma rede
 
-Apenas o computador servidor deve executar `pnpm dev` e acessar o MySQL. Os demais computadores devem abrir o endereço do servidor no navegador.
+Apenas o computador servidor deve executar `npm start` e acessar o MySQL. Os demais computadores devem abrir o endereço do servidor no navegador.
 
 1. Garanta que todos os computadores estejam na mesma rede Wi-Fi ou Ethernet.
 2. No servidor Windows, execute `ipconfig`.
@@ -238,14 +244,22 @@ Encerre o processo que está usando a porta ou altere `PORT` no `.env`. Se alter
 
 ### O painel mostra “Tentando conectar ao banco compartilhado”
 
-Confirme que o painel foi aberto pelo endereço do computador servidor, que o servidor está ativo e que `pnpm diagnose` informa `MySQL: conexão OK`. Os computadores dos alunos não devem iniciar uma segunda cópia do servidor.
+Confirme que o painel foi aberto pelo endereço do computador servidor, que o servidor está ativo e que `pnpm diagnose` informa `MySQL: conexão OK`. Se o build tiver sido criado antes, a execução com `npm start` não precisa de internet. Os computadores dos alunos não devem iniciar uma segunda cópia do servidor.
 
-## Desenvolvimento e testes
+## Desenvolvimento, build e testes
+
+Os comandos abaixo são usados durante a preparação ou manutenção do projeto:
 
 ```bash
 pnpm check
 pnpm test
-pnpm build
+pnpm run build
+```
+
+Para executar a versão compilada sem internet:
+
+```bash
+npm start
 ```
 
 Para formatar os arquivos:
